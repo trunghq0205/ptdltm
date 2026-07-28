@@ -1,9 +1,558 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-    <title>Báo cáo PTDLTM</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yếu tố nhân quả tác động lên giá căn hộ TP.HCM</title>
+<style>
+:root {
+  --bg:#ffffff; --fg:#1e293b; --muted:#64748b; --line:#e2e8f0;
+  --accent:#0f766e; --accent2:#134e6f; --card:#f8fafc;
+  --pos:#1a7f5a; --neg:#c0392b; --ns:#7c8794;
+  --maxw:840px;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:20px; }
+body {
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  line-height:1.72; font-size:16.5px; -webkit-font-smoothing:antialiased;
+}
+.wrap { display:grid; grid-template-columns:230px minmax(0,1fr); gap:44px;
+  max-width:1180px; margin:0 auto; padding:0 24px; }
+/* ---- TOC ---- */
+nav.toc { position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto;
+  padding:32px 0 40px; font-size:13.5px; border-right:1px solid var(--line); }
+nav.toc .brand { font-weight:800; color:var(--accent2); font-size:14px; letter-spacing:.02em;
+  margin-bottom:16px; line-height:1.4; }
+nav.toc a { display:block; color:var(--muted); text-decoration:none; padding:5px 12px 5px 0;
+  border-left:2px solid transparent; }
+nav.toc a:hover { color:var(--accent); }
+nav.toc a.sub { padding-left:16px; font-size:12.5px; }
+main { max-width:var(--maxw); padding:40px 0 90px; min-width:0; }
+/* ---- typography ---- */
+h1 { font-size:31px; line-height:1.25; margin:0 0 6px; color:var(--accent2); letter-spacing:-.01em; }
+.subtitle { color:var(--muted); font-size:16px; margin:0 0 8px; }
+.meta { color:var(--muted); font-size:13.5px; border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line); padding:10px 0; margin:18px 0 34px;
+  display:flex; flex-wrap:wrap; gap:18px; }
+.meta b { color:var(--fg); font-weight:600; }
+h2 { font-size:22px; margin:52px 0 14px; padding-bottom:8px; border-bottom:2px solid var(--accent);
+  color:var(--accent2); scroll-margin-top:16px; }
+h2 .n { color:var(--accent); font-weight:800; margin-right:8px; }
+h3 { font-size:17.5px; margin:30px 0 10px; color:var(--accent2); }
+p { margin:12px 0; }
+ul,ol { margin:12px 0; padding-left:22px; } li { margin:6px 0; }
+code { background:var(--card); padding:1px 6px; border-radius:4px; font-size:14px;
+  border:1px solid var(--line); }
+sup { font-size:.72em; color:var(--accent); }
+.q { font-size:18px; font-weight:600; font-style:italic; color:var(--accent2);
+  border-left:4px solid var(--accent); background:var(--card); padding:14px 20px;
+  border-radius:0 8px 8px 0; margin:18px 0; }
+/* ---- callouts ---- */
+.callout { border-radius:10px; padding:16px 20px; margin:22px 0; border:1px solid var(--line);
+  background:var(--card); }
+.callout.key { border-left:5px solid var(--accent); background:#f0fdfa; }
+.callout.warn { border-left:5px solid #d97706; background:#fffbeb; }
+.callout h4 { margin:0 0 8px; font-size:15px; color:var(--accent2); }
+.callout.warn h4 { color:#b45309; }
+/* ---- tables ---- */
+.tbl-scroll { overflow-x:auto; margin:20px 0; border:1px solid var(--line); border-radius:10px; }
+table { border-collapse:collapse; width:100%; font-size:13.8px; }
+thead th { background:#134e6f; color:#fff; font-weight:600; text-align:left;
+  padding:9px 11px; white-space:nowrap; font-size:12.8px; }
+tbody td { padding:8px 11px; border-top:1px solid var(--line); }
+tbody tr:nth-child(even) { background:var(--card); }
+td.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+td.small { font-size:12.5px; color:var(--muted); }
+td.grp { font-weight:700; color:var(--accent2); }
+.b { display:inline-block; padding:2px 9px; border-radius:20px; font-size:11.5px; font-weight:700; white-space:nowrap; }
+.b-pos { background:#dcfce7; color:#166534; }
+.b-neg { background:#fee2e2; color:#991b1b; }
+.b-ns  { background:#f1f5f9; color:#475569; }
+/* ---- highlight cards ---- */
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:22px 0; }
+.pcard { border:1px solid var(--line); border-radius:10px; padding:14px; background:#fff; }
+.pcard .f { font-size:13px; color:var(--muted); font-weight:600; }
+.pcard .v { font-size:23px; font-weight:800; margin:4px 0; }
+.pcard .v.pos { color:var(--pos); } .pcard .v.neg { color:var(--neg); } .pcard .v.ns { color:var(--ns); }
+.pcard .t { font-size:12.5px; color:var(--muted); }
+/* ---- chart ---- */
+.chart { background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px 14px 8px;
+  margin:22px 0; overflow-x:auto; }
+.chart svg { width:100%; min-width:640px; height:auto; display:block; }
+.legend { display:flex; gap:20px; flex-wrap:wrap; font-size:12.5px; color:var(--muted);
+  padding:6px 8px 2px; }
+.legend span::before { content:""; display:inline-block; width:11px; height:11px; border-radius:50%;
+  margin-right:6px; vertical-align:-1px; }
+.legend .lp::before { background:var(--pos); }
+.legend .ln::before { background:var(--neg); }
+.legend .lz::before { background:var(--ns); }
+.cap { font-size:13px; color:var(--muted); margin:6px 0 0; font-style:italic; }
+footer { border-top:1px solid var(--line); margin-top:60px; padding-top:20px;
+  color:var(--muted); font-size:13px; }
+@media (max-width:860px) {
+  .wrap { grid-template-columns:1fr; gap:0; padding:0 18px; }
+  nav.toc { position:static; height:auto; border-right:none; border-bottom:1px solid var(--line);
+    padding:20px 0; }
+  nav.toc { display:none; }
+  main { padding:26px 0 60px; }
+  h1 { font-size:25px; }
+}
+</style>
 </head>
 <body>
-    <h1>Phân tích dữ liệu thông minh</h1>
+<div class="wrap">
+<nav class="toc">
+  <div class="brand">Phân tích nhân quả<br>giá căn hộ TP.HCM</div>
+  <a href="#tomtat">Tóm tắt</a>
+  <a href="#cauhoi">1 · Câu hỏi &amp; khung nhân quả</a>
+  <a href="#dulieu">2 · Dữ liệu</a>
+  <a href="#phuongphap">3 · Phương pháp</a>
+  <a href="#ketqua">4 · Kết quả chính</a>
+  <a class="sub" href="#forest">4.1 · Biểu đồ hiệu ứng</a>
+  <a class="sub" href="#bang">4.2 · Bảng A vs B</a>
+  <a href="#casestudy">5 · Case study: vị trí</a>
+  <a href="#dienGiai">6 · Trả lời câu hỏi</a>
+  <a href="#gioihan">7 · Giới hạn</a>
+  <a href="#ketluan">8 · Kết luận</a>
+  <a href="#phuluc">Phụ lục</a>
+</nav>
+<main>
+
+<h1>Yếu tố nào <em>thật sự</em> tác động lên giá căn hộ tại TP.HCM?</h1>
+<p class="subtitle">Ước lượng tác động <strong>nhân quả</strong> của các đặc điểm tin rao lên giá bán trên mỗi m² bằng Double Machine Learning</p>
+<div class="meta">
+  <span>📊 <b>6.619</b> tin rao (Chợ Tốt · TP.HCM)</span>
+  <span>🧪 <b>4</b> mô hình nhân quả · <b>2</b> cặp so sánh</span>
+  <span>🎯 Outcome: <b>log(giá triệu/m²)</b></span>
+</div>
+
+<!-- ============ TÓM TẮT ============ -->
+<h2 id="tomtat"><span class="n">§</span>Tóm tắt</h2>
+<p>
+Nghiên cứu sử dụng <b>6.619</b> tin rao bán căn hộ tại TP.HCM (nguồn Chợ Tốt) để trả lời câu hỏi:
+trong số các đặc điểm quan sát được của một tin rao — <b>vị trí, người bán, tình trạng nội thất,
+loại hình căn hộ, loại giấy tờ pháp lý</b> — yếu tố nào có <b>tác động nhân quả</b> (chứ không chỉ
+tương quan) lên giá bán mỗi m², sau khi đã kiểm soát lẫn nhau và kiểm soát các đặc điểm vật lý cơ
+bản (diện tích, số phòng, số toilet, tầng, khu vực).
+</p>
+<p>
+Chúng tôi áp dụng <b>Double Machine Learning (DML)</b> — phương pháp tách phần gây nhiễu phi tuyến
+của các biến kiểm soát trước khi ước lượng hiệu ứng — và kiểm chứng chéo bằng <b>hai cặp mô hình
+khác nhau</b>: (i) <i>LinearDML</i> vs <i>SparseLinearDML</i> cho phân tích đa yếu tố (trục chính);
+(ii) <i>Causal Forest</i> vs <i>Hồi quy gián đoạn (RDD)</i> để soi sâu riêng yếu tố vị trí.
+</p>
+<div class="callout key">
+  <h4>Kết luận chính</h4>
+  <p style="margin:6px 0"><b>Vị trí (gần metro ≤ 800m)</b> là yếu tố có tác động nhân quả <b>mạnh và
+  vững nhất</b>: làm giá/m² cao hơn khoảng <b>+27%</b>, ổn định trên cả hai mô hình. <b>Loại căn hộ</b>
+  và <b>tình trạng nội thất</b> có tác động rõ ở một số nhóm. <b>Loại giấy tờ pháp lý</b> phần lớn
+  <b>không</b> còn ý nghĩa sau khi kiểm soát. <b>Người bán là công ty hay cá nhân</b> gần như
+  <b>không</b> ảnh hưởng đến giá (~0%).</p>
+</div>
+<div class="cards">
+  <div class="pcard"><div class="f">Vị trí (metro)</div><div class="v pos">+27%</div><div class="t">✅ Nhân quả, mạnh nhất</div></div>
+  <div class="pcard"><div class="f">Loại căn hộ</div><div class="v pos">+29% … −17%</div><div class="t">✅ Tùy loại</div></div>
+  <div class="pcard"><div class="f">Nội thất</div><div class="v neg">−5% … −14%</div><div class="t">✅ Có tác động</div></div>
+  <div class="pcard"><div class="f">Pháp lý</div><div class="v ns">≈ 0</div><div class="t">⚠️ Phần lớn không</div></div>
+  <div class="pcard"><div class="f">Người bán</div><div class="v ns">−0,1%</div><div class="t">❌ Không tác động</div></div>
+</div>
+
+<!-- ============ 1. CÂU HỎI ============ -->
+<h2 id="cauhoi"><span class="n">1</span>Câu hỏi nghiên cứu &amp; khung nhân quả</h2>
+<div class="q">Trong số các đặc điểm quan sát được của một tin rao bán căn hộ tại TP.HCM (vị trí, người
+bán, tình trạng nội thất, loại hình căn hộ, loại giấy tờ pháp lý), yếu tố nào có tác động
+<u>nhân quả</u> — chứ không chỉ tương quan — đến giá bán trên mỗi m², sau khi đã kiểm soát lẫn nhau
+và kiểm soát các đặc điểm vật lý cơ bản (diện tích, số phòng, số toilet, tầng, khu vực)?</div>
+<h3>Vì sao "tương quan" chưa đủ?</h3>
+<p>
+Một hồi quy thông thường có thể cho thấy tin do công ty đăng có giá cao hơn, hay căn có nội thất đầy
+đủ đắt hơn. Nhưng các đặc điểm này <b>đan xen nhau</b>: căn gần trung tâm thường vừa có nội thất tốt,
+vừa do môi giới đăng, vừa nằm ở quận đắt đỏ. Nếu không tách bạch, ta dễ gán nhầm cho một yếu tố phần
+tác động vốn thuộc về yếu tố khác. Câu hỏi đặt ra đòi hỏi ước lượng <b>hiệu ứng riêng (partial), giữ
+các yếu tố còn lại cố định</b> — đây là bài toán suy luận nhân quả, không phải dự báo.
+</p>
+<h3>Cách tiếp cận</h3>
+<p>
+Chúng tôi coi cả năm đặc điểm là những <b>"tác nhân" ngang hàng</b>, đưa vào mô hình
+<b>đồng thời</b>, để mỗi hệ số phản ánh tác động của yếu tố đó <i>sau khi đã khử ảnh hưởng của các
+yếu tố khác và của đặc điểm vật lý</i>. Biến kết quả là <code>log(giá triệu/m²)</code> nên hệ số xấp
+xỉ phần trăm thay đổi giá; hiệu ứng phần trăm chính xác tính bằng (e<sup>hệ số</sup> − 1)×100%.
+</p>
+
+<!-- ============ 2. DỮ LIỆU ============ -->
+<h2 id="dulieu"><span class="n">2</span>Dữ liệu</h2>
+<p>
+Dữ liệu là tin rao bán căn hộ tại TP.HCM thu thập từ nền tảng <b>Chợ Tốt</b> — dữ liệu có ngữ cảnh
+Việt Nam, quy mô <b>vượt 2.000 quan sát</b> theo yêu cầu.
+</p>
+<ul>
+  <li><b>6.621</b> tin thô → loại trùng <code>list_id</code> còn <b>6.619</b> tin.</li>
+  <li>Mẫu đưa vào mô hình đa yếu tố: <b>6.500</b> quan sát (sau khi loại các dòng thiếu biến trọng yếu).</li>
+  <li>Riêng phần soi sâu vị trí (Causal Forest) giới hạn phạm vi <b>3km</b> quanh tuyến metro để so
+  sánh công bằng, còn <b>1.470</b> tin (mẫu ước lượng 299).</li>
+</ul>
+<h3>Các biến trong mô hình</h3>
+<div class="tbl-scroll"><table>
+<thead><tr><th>Vai trò</th><th>Biến</th><th>Mô tả</th></tr></thead>
+<tbody>
+<tr><td class="grp">Kết quả (Y)</td><td>log_price_per_m2</td><td>Logarit của giá bán (triệu đồng) trên mỗi m²</td></tr>
+<tr><td class="grp">Yếu tố (T)</td><td>near_metro_800m</td><td><b>Vị trí:</b> căn nằm trong bán kính 800m tới ga metro (Haversine)</td></tr>
+<tr><td class="grp"></td><td>is_company_ad</td><td><b>Người bán:</b> tin do công ty/môi giới đăng (vs cá nhân)</td></tr>
+<tr><td class="grp"></td><td>furnishing_sell</td><td><b>Nội thất:</b> tình trạng nội thất (nhóm mã, không thứ tự)</td></tr>
+<tr><td class="grp"></td><td>apartment_type</td><td><b>Loại căn hộ:</b> chung cư / officetel / … (nhóm mã)</td></tr>
+<tr><td class="grp"></td><td>property_legal_document</td><td><b>Pháp lý:</b> loại giấy tờ (nhóm mã, không thứ tự)</td></tr>
+<tr><td class="grp">Kiểm soát (W)</td><td>size, rooms, toilets, floornumber</td><td>Đặc điểm vật lý: diện tích, số phòng, số toilet, tầng</td></tr>
+<tr><td class="grp"></td><td>area_name</td><td>Khu vực / quận (biến giả) — kiểm soát chênh lệch mặt bằng giá theo địa bàn</td></tr>
+</tbody>
+</table></div>
+<p class="cap">Ghi chú: các biến nhóm (nội thất, loại căn hộ, pháp lý) được mã hóa one-hot, coi là
+danh mục <b>không thứ tự</b> — không suy diễn "mã lớn hơn thì tốt hơn". Một số nhãn text chưa có trong
+dữ liệu gốc (xem Giới hạn).</p>
+
+<!-- ============ 3. PHƯƠNG PHÁP ============ -->
+<h2 id="phuongphap"><span class="n">3</span>Phương pháp</h2>
+<h3>Double Machine Learning (DML)</h3>
+<p>
+DML ước lượng hiệu ứng nhân quả theo hai bước: (1) dùng mô hình học máy (ở đây là
+<b>LightGBM</b>) dự đoán riêng <i>giá</i> và <i>từng yếu tố</i> từ các biến kiểm soát W, rồi lấy phần
+dư (residual); (2) hồi quy phần dư của giá lên phần dư của các yếu tố. Nhờ "trực giao hóa"
+(orthogonalization) này, phần nhiễu phi tuyến do đặc điểm vật lý và khu vực gây ra được loại bỏ, cho
+hệ số ít chệch và có suy luận thống kê (p-value, khoảng tin cậy) hợp lệ.
+</p>
+<h3>Hai cặp mô hình so sánh</h3>
+<div class="tbl-scroll"><table>
+<thead><tr><th>Vai trò</th><th>Mô hình 1</th><th>Mô hình 2</th><th>Mục đích so sánh</th></tr></thead>
+<tbody>
+<tr><td class="grp">Trục chính<br>(5 yếu tố)</td><td><b>LinearDML</b><br><span style="color:var(--muted);font-size:12.5px">final stage: OLS</span></td>
+<td><b>SparseLinearDML</b><br><span style="color:var(--muted);font-size:12.5px">final stage: debiased Lasso</span></td>
+<td>Kiểm tra độ vững khi nhiều yếu tố tương quan nhau — nếu hai mô hình cho kết quả tương tự thì hệ số
+đáng tin, không phải nhiễu do đa cộng tuyến.</td></tr>
+<tr><td class="grp">Bổ trợ<br>(vị trí)</td><td><b>Causal Forest</b><br><span style="color:var(--muted);font-size:12.5px">DML + rừng nhân quả</span></td>
+<td><b>RDD</b><br><span style="color:var(--muted);font-size:12.5px">hồi quy gián đoạn tại ngưỡng 800m</span></td>
+<td>Kiểm chứng chéo bằng hai <i>hệ giả định khác nhau</i>: unconfoundedness (Causal Forest) vs tính
+liên tục cục bộ quanh ngưỡng (RDD).</td></tr>
+</tbody>
+</table></div>
+<div class="callout">
+<p style="margin:4px 0"><b>Lưu ý quan trọng về "vị trí":</b> trong mô hình, vị trí được đo bằng đúng
+một biến — <i>gần metro ≤ 800m hay không</i> — còn <b>quận/khu vực được đưa vào nhóm kiểm soát</b>.
+Do đó hệ số phản ánh: <i>"gần metro có làm giá cao hơn không, khi so trong cùng một khu vực"</i>,
+chứ chưa so sánh quận này với quận khác.</p>
+</div>
+
+<!-- ============ 4. KẾT QUẢ ============ -->
+<h2 id="ketqua"><span class="n">4</span>Kết quả chính — năm yếu tố ngang hàng</h2>
+<p>
+Bảng dưới trình bày hiệu ứng nhân quả của từng yếu tố lên giá/m², ước lượng đồng thời trên mẫu
+<b>6.500</b> quan sát. Mỗi hệ số so với <b>nhóm tham chiếu</b> tương ứng (loại căn hộ: Chung cư;
+nội thất: mã 1; pháp lý: nhóm nền; người bán: cá nhân).
+</p>
+
+<h3 id="forest">4.1 · Biểu đồ hiệu ứng &amp; khoảng tin cậy 95%</h3>
+<div class="chart">
+<svg viewBox="0 0 900 572" role="img" aria-label="Forest plot hiệu ứng nhân quả" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Segoe UI,Roboto,sans-serif">
+<text x="250" y="24" font-size="14" font-weight="700" fill="#0f172a">Hiệu ứng nhân quả lên giá/m² (%) · Model A — LinearDML · KTC 95%</text>
+<line x1="275.5" y1="60" x2="275.5" y2="546" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="275.5" y="54" font-size="10.5" fill="#64748b" text-anchor="middle">-30</text>
+<line x1="326.5" y1="60" x2="326.5" y2="546" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="326.5" y="54" font-size="10.5" fill="#64748b" text-anchor="middle">-20</text>
+<line x1="377.5" y1="60" x2="377.5" y2="546" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="377.5" y="54" font-size="10.5" fill="#64748b" text-anchor="middle">-10</text>
+<line x1="428.5" y1="60" x2="428.5" y2="546" stroke="#475569" stroke-width="1.6" />
+<text x="428.5" y="54" font-size="10.5" fill="#64748b" text-anchor="middle">+0</text>
+<line x1="479.5" y1="60" x2="479.5" y2="546" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="479.5" y="54" font-size="10.5" fill="#64748b" text-anchor="middle">+10</text>
+<line x1="530.5" y1="60" x2="530.5" y2="546" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="530.5" y="54" font-size="10.5" fill="#64748b" text-anchor="middle">+20</text>
+<line x1="581.5" y1="60" x2="581.5" y2="546" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="581.5" y="54" font-size="10.5" fill="#64748b" text-anchor="middle">+30</text>
+<line x1="632.5" y1="60" x2="632.5" y2="546" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="632.5" y="54" font-size="10.5" fill="#64748b" text-anchor="middle">+40</text>
+<line x1="683.5" y1="60" x2="683.5" y2="546" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="683.5" y="54" font-size="10.5" fill="#64748b" text-anchor="middle">+50</text>
+<line x1="734.5" y1="60" x2="734.5" y2="546" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="734.5" y="54" font-size="10.5" fill="#64748b" text-anchor="middle">+60</text>
+<text x="768" y="54" font-size="10.5" fill="#64748b">Hiệu ứng (p)</text>
+<rect x="0" y="66.0" width="900" height="30" fill="#f8fafc"/>
+<text x="10" y="85.0" font-size="12" font-weight="700" fill="#0f172a">Vị trí</text>
+<text x="106" y="85.0" font-size="11.5" fill="#334155">Gần metro ≤ 800m</text>
+<line x1="530.3" y1="81.0" x2="606.9" y2="81.0" stroke="#1a7f5a" stroke-width="2.2" opacity="1"/>
+<line x1="530.3" y1="78.0" x2="530.3" y2="84.0" stroke="#1a7f5a" stroke-width="2.2" opacity="1"/>
+<line x1="606.9" y1="78.0" x2="606.9" y2="84.0" stroke="#1a7f5a" stroke-width="2.2" opacity="1"/>
+<circle cx="567.5" cy="81.0" r="4.4" fill="#1a7f5a" stroke="#fff" stroke-width="1"/>
+<text x="768" y="85.0" font-size="11" font-weight="600" fill="#1a7f5a">+27.3% ***</text>
+<text x="10" y="115.0" font-size="12" font-weight="700" fill="#0f172a">Người bán</text>
+<text x="106" y="115.0" font-size="11.5" fill="#334155">Là công ty / môi giới</text>
+<line x1="416.4" y1="111.0" x2="440.4" y2="111.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="416.4" y1="108.0" x2="416.4" y2="114.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="440.4" y1="108.0" x2="440.4" y2="114.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<circle cx="428.0" cy="111.0" r="4.4" fill="#9aa5b1" stroke="#fff" stroke-width="1"/>
+<text x="768" y="115.0" font-size="11" font-weight="600" fill="#9aa5b1">-0.1% ns</text>
+<rect x="0" y="126.0" width="900" height="30" fill="#f8fafc"/>
+<text x="10" y="145.0" font-size="12" font-weight="700" fill="#0f172a">Nội thất</text>
+<text x="106" y="145.0" font-size="11.5" fill="#334155">Mã 2</text>
+<line x1="387.4" y1="141.0" x2="414.4" y2="141.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<line x1="387.4" y1="138.0" x2="387.4" y2="144.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<line x1="414.4" y1="138.0" x2="414.4" y2="144.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<circle cx="400.7" cy="141.0" r="4.4" fill="#c0392b" stroke="#fff" stroke-width="1"/>
+<text x="768" y="145.0" font-size="11" font-weight="600" fill="#c0392b">-5.4% ***</text>
+<text x="106" y="175.0" font-size="11.5" fill="#334155">Mã 3</text>
+<line x1="369.0" y1="171.0" x2="398.3" y2="171.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<line x1="369.0" y1="168.0" x2="369.0" y2="174.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<line x1="398.3" y1="168.0" x2="398.3" y2="174.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<circle cx="383.7" cy="171.0" r="4.4" fill="#c0392b" stroke="#fff" stroke-width="1"/>
+<text x="768" y="175.0" font-size="11" font-weight="600" fill="#c0392b">-8.8% ***</text>
+<rect x="0" y="186.0" width="900" height="30" fill="#f8fafc"/>
+<text x="106" y="205.0" font-size="11.5" fill="#334155">Mã 4</text>
+<line x1="316.9" y1="201.0" x2="401.7" y2="201.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<line x1="316.9" y1="198.0" x2="316.9" y2="204.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<line x1="401.7" y1="198.0" x2="401.7" y2="204.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<circle cx="357.5" cy="201.0" r="4.4" fill="#c0392b" stroke="#fff" stroke-width="1"/>
+<text x="768" y="205.0" font-size="11" font-weight="600" fill="#c0392b">-13.9% **</text>
+<text x="106" y="235.0" font-size="11.5" fill="#334155">Thiếu dữ liệu</text>
+<line x1="372.2" y1="231.0" x2="399.8" y2="231.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<line x1="372.2" y1="228.0" x2="372.2" y2="234.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<line x1="399.8" y1="228.0" x2="399.8" y2="234.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<circle cx="386.0" cy="231.0" r="4.4" fill="#c0392b" stroke="#fff" stroke-width="1"/>
+<text x="768" y="235.0" font-size="11" font-weight="600" fill="#c0392b">-8.3% ***</text>
+<rect x="0" y="246.0" width="900" height="30" fill="#f8fafc"/>
+<text x="10" y="265.0" font-size="12" font-weight="700" fill="#0f172a">Loại căn hộ</text>
+<text x="106" y="265.0" font-size="11.5" fill="#334155">Mã 2</text>
+<line x1="453.0" y1="261.0" x2="734.5" y2="261.0" stroke="#1a7f5a" stroke-width="2.2" opacity="1"/>
+<line x1="453.0" y1="258.0" x2="453.0" y2="264.0" stroke="#1a7f5a" stroke-width="2.2" opacity="1"/>
+<line x1="734.5" y1="258.0" x2="734.5" y2="264.0" stroke="#1a7f5a" stroke-width="2.2" opacity="1"/>
+<circle cx="578.6" cy="261.0" r="4.4" fill="#1a7f5a" stroke="#fff" stroke-width="1"/>
+<text x="768" y="265.0" font-size="11" font-weight="600" fill="#1a7f5a">+29.4% *</text>
+<text x="106" y="295.0" font-size="11.5" fill="#334155">Mã 3</text>
+<line x1="427.0" y1="291.0" x2="584.6" y2="291.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="427.0" y1="288.0" x2="427.0" y2="294.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="584.6" y1="288.0" x2="584.6" y2="294.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<circle cx="500.5" cy="291.0" r="4.4" fill="#9aa5b1" stroke="#fff" stroke-width="1"/>
+<text x="768" y="295.0" font-size="11" font-weight="600" fill="#9aa5b1">+14.1% ns</text>
+<rect x="0" y="306.0" width="900" height="30" fill="#f8fafc"/>
+<text x="106" y="325.0" font-size="11.5" fill="#334155">Mã 4</text>
+<line x1="411.9" y1="321.0" x2="684.7" y2="321.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="411.9" y1="318.0" x2="411.9" y2="324.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="684.7" y1="318.0" x2="684.7" y2="324.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<circle cx="533.4" cy="321.0" r="4.4" fill="#9aa5b1" stroke="#fff" stroke-width="1"/>
+<text x="768" y="325.0" font-size="11" font-weight="600" fill="#9aa5b1">+20.6% ns</text>
+<text x="106" y="355.0" font-size="11.5" fill="#334155">Mã 5</text>
+<line x1="297.1" y1="351.0" x2="394.5" y2="351.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<line x1="297.1" y1="348.0" x2="297.1" y2="354.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<line x1="394.5" y1="348.0" x2="394.5" y2="354.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<circle cx="343.2" cy="351.0" r="4.4" fill="#c0392b" stroke="#fff" stroke-width="1"/>
+<text x="768" y="355.0" font-size="11" font-weight="600" fill="#c0392b">-16.7% **</text>
+<rect x="0" y="366.0" width="900" height="30" fill="#f8fafc"/>
+<text x="106" y="385.0" font-size="11.5" fill="#334155">Officetel (mã 6)</text>
+<line x1="453.0" y1="381.0" x2="542.7" y2="381.0" stroke="#1a7f5a" stroke-width="2.2" opacity="1"/>
+<line x1="453.0" y1="378.0" x2="453.0" y2="384.0" stroke="#1a7f5a" stroke-width="2.2" opacity="1"/>
+<line x1="542.7" y1="378.0" x2="542.7" y2="384.0" stroke="#1a7f5a" stroke-width="2.2" opacity="1"/>
+<circle cx="496.4" cy="381.0" r="4.4" fill="#1a7f5a" stroke="#fff" stroke-width="1"/>
+<text x="768" y="385.0" font-size="11" font-weight="600" fill="#1a7f5a">+13.3% **</text>
+<text x="10" y="415.0" font-size="12" font-weight="700" fill="#0f172a">Pháp lý</text>
+<text x="106" y="415.0" font-size="11.5" fill="#334155">Mã 2</text>
+<line x1="278.3" y1="411.0" x2="403.1" y2="411.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<line x1="278.3" y1="408.0" x2="278.3" y2="414.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<line x1="403.1" y1="408.0" x2="403.1" y2="414.0" stroke="#c0392b" stroke-width="2.2" opacity="1"/>
+<circle cx="336.1" cy="411.0" r="4.4" fill="#c0392b" stroke="#fff" stroke-width="1"/>
+<text x="768" y="415.0" font-size="11" font-weight="600" fill="#c0392b">-18.1% **</text>
+<rect x="0" y="426.0" width="900" height="30" fill="#f8fafc"/>
+<text x="106" y="445.0" font-size="11.5" fill="#334155">Mã 4</text>
+<line x1="310.2" y1="441.0" x2="484.4" y2="441.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="310.2" y1="438.0" x2="310.2" y2="444.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="484.4" y1="438.0" x2="484.4" y2="444.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<circle cx="389.3" cy="441.0" r="4.4" fill="#9aa5b1" stroke="#fff" stroke-width="1"/>
+<text x="768" y="445.0" font-size="11" font-weight="600" fill="#9aa5b1">-7.7% ns</text>
+<text x="106" y="475.0" font-size="11.5" fill="#334155">Mã 5</text>
+<line x1="313.3" y1="471.0" x2="445.1" y2="471.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="313.3" y1="468.0" x2="313.3" y2="474.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="445.1" y1="468.0" x2="445.1" y2="474.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<circle cx="374.5" cy="471.0" r="4.4" fill="#9aa5b1" stroke="#fff" stroke-width="1"/>
+<text x="768" y="475.0" font-size="11" font-weight="600" fill="#9aa5b1">-10.6% ns</text>
+<rect x="0" y="486.0" width="900" height="30" fill="#f8fafc"/>
+<text x="106" y="505.0" font-size="11.5" fill="#334155">Mã 6</text>
+<line x1="311.0" y1="501.0" x2="438.8" y2="501.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="311.0" y1="498.0" x2="311.0" y2="504.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="438.8" y1="498.0" x2="438.8" y2="504.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<circle cx="370.4" cy="501.0" r="4.4" fill="#9aa5b1" stroke="#fff" stroke-width="1"/>
+<text x="768" y="505.0" font-size="11" font-weight="600" fill="#9aa5b1">-11.4% ns</text>
+<text x="106" y="535.0" font-size="11.5" fill="#334155">Thiếu dữ liệu</text>
+<line x1="322.1" y1="531.0" x2="454.6" y2="531.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="322.1" y1="528.0" x2="322.1" y2="534.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<line x1="454.6" y1="528.0" x2="454.6" y2="534.0" stroke="#9aa5b1" stroke-width="2.2" opacity="0.55"/>
+<circle cx="383.7" cy="531.0" r="4.4" fill="#9aa5b1" stroke="#fff" stroke-width="1"/>
+<text x="768" y="535.0" font-size="11" font-weight="600" fill="#9aa5b1">-8.8% ns</text>
+</svg>
+<div class="legend">
+  <span class="lp">Tăng giá, có ý nghĩa thống kê (p&lt;0,05)</span>
+  <span class="ln">Giảm giá, có ý nghĩa thống kê</span>
+  <span class="lz">Không có ý nghĩa thống kê (KTC cắt mốc 0)</span>
+</div>
+</div>
+<p class="cap">Ký hiệu mức ý nghĩa: *** p&lt;0,001 · ** p&lt;0,01 · * p&lt;0,05 · ns không ý nghĩa.
+Khoảng tin cậy càng ngắn, ước lượng càng chắc chắn.</p>
+
+<h3 id="bang">4.2 · So sánh Model A (LinearDML) vs Model B (SparseLinearDML)</h3>
+<div class="tbl-scroll"><table>
+<thead><tr>
+  <th>Nhóm</th><th>Chi tiết</th>
+  <th>Hệ số A</th><th>Hiệu ứng A</th><th>KTC 95% (A)</th><th>p (A)</th>
+  <th>Hiệu ứng B</th><th>p (B)</th><th>Kết luận</th>
+</tr></thead>
+<tbody>
+<tr><td class="grp">Vị trí</td><td>Gần metro ≤ 800m</td><td class="num">+0.241</td><td class="num">+27.3%</td><td class="num small">[+20.0; +35.0]</td><td class="num">0.000<sup>***</sup></td><td class="num">+27.4%</td><td class="num">0.000<sup>***</sup></td><td><span class="b b-pos">▲ tăng</span></td></tr>
+<tr><td class="grp">Người bán</td><td>Là công ty / môi giới</td><td class="num">-0.001</td><td class="num">-0.1%</td><td class="num small">[-2.4; +2.3]</td><td class="num">0.960<sup>ns</sup></td><td class="num">-0.1%</td><td class="num">0.947<sup>ns</sup></td><td><span class="b b-ns">— không</span></td></tr>
+<tr><td class="grp">Nội thất</td><td>Mã 2</td><td class="num">-0.056</td><td class="num">-5.4%</td><td class="num small">[-8.1; -2.8]</td><td class="num">0.000<sup>***</sup></td><td class="num">-5.4%</td><td class="num">0.000<sup>***</sup></td><td><span class="b b-neg">▼ giảm</span></td></tr>
+<tr><td class="grp"></td><td>Mã 3</td><td class="num">-0.092</td><td class="num">-8.8%</td><td class="num small">[-11.7; -5.9]</td><td class="num">0.000<sup>***</sup></td><td class="num">-8.9%</td><td class="num">0.000<sup>***</sup></td><td><span class="b b-neg">▼ giảm</span></td></tr>
+<tr><td class="grp"></td><td>Mã 4</td><td class="num">-0.150</td><td class="num">-13.9%</td><td class="num small">[-21.9; -5.3]</td><td class="num">0.002<sup>**</sup></td><td class="num">-14.0%</td><td class="num">0.004<sup>**</sup></td><td><span class="b b-neg">▼ giảm</span></td></tr>
+<tr><td class="grp"></td><td>Thiếu dữ liệu</td><td class="num">-0.087</td><td class="num">-8.3%</td><td class="num small">[-11.0; -5.6]</td><td class="num">0.000<sup>***</sup></td><td class="num">-8.3%</td><td class="num">0.000<sup>***</sup></td><td><span class="b b-neg">▼ giảm</span></td></tr>
+<tr><td class="grp">Loại căn hộ</td><td>Mã 2</td><td class="num">+0.258</td><td class="num">+29.4%</td><td class="num small">[+4.8; +60.0]</td><td class="num">0.017<sup>*</sup></td><td class="num">+29.3%</td><td class="num">0.000<sup>***</sup></td><td><span class="b b-pos">▲ tăng</span></td></tr>
+<tr><td class="grp"></td><td>Mã 3</td><td class="num">+0.132</td><td class="num">+14.1%</td><td class="num small">[-0.3; +30.6]</td><td class="num">0.055<sup>ns</sup></td><td class="num">+14.0%</td><td class="num">0.045<sup>*</sup></td><td><span class="b b-ns">— không</span></td></tr>
+<tr><td class="grp"></td><td>Mã 4</td><td class="num">+0.187</td><td class="num">+20.6%</td><td class="num small">[-3.2; +50.2]</td><td class="num">0.095<sup>ns</sup></td><td class="num">+20.1%</td><td class="num">0.180<sup>ns</sup></td><td><span class="b b-ns">— không</span></td></tr>
+<tr><td class="grp"></td><td>Mã 5</td><td class="num">-0.183</td><td class="num">-16.7%</td><td class="num small">[-25.8; -6.7]</td><td class="num">0.002<sup>**</sup></td><td class="num">-17.0%</td><td class="num">0.001<sup>**</sup></td><td><span class="b b-neg">▼ giảm</span></td></tr>
+<tr><td class="grp"></td><td>Officetel (mã 6)</td><td class="num">+0.125</td><td class="num">+13.3%</td><td class="num small">[+4.8; +22.4]</td><td class="num">0.002<sup>**</sup></td><td class="num">+13.1%</td><td class="num">0.005<sup>**</sup></td><td><span class="b b-pos">▲ tăng</span></td></tr>
+<tr><td class="grp">Pháp lý</td><td>Mã 2</td><td class="num">-0.200</td><td class="num">-18.1%</td><td class="num small">[-29.5; -5.0]</td><td class="num">0.009<sup>**</sup></td><td class="num">-17.9%</td><td class="num">0.005<sup>**</sup></td><td><span class="b b-neg">▼ giảm</span></td></tr>
+<tr><td class="grp"></td><td>Mã 4</td><td class="num">-0.080</td><td class="num">-7.7%</td><td class="num small">[-23.2; +11.0]</td><td class="num">0.395<sup>ns</sup></td><td class="num">-7.5%</td><td class="num">0.342<sup>ns</sup></td><td><span class="b b-ns">— không</span></td></tr>
+<tr><td class="grp"></td><td>Mã 5</td><td class="num">-0.112</td><td class="num">-10.6%</td><td class="num small">[-22.6; +3.3]</td><td class="num">0.128<sup>ns</sup></td><td class="num">-9.8%</td><td class="num">0.101<sup>ns</sup></td><td><span class="b b-ns">— không</span></td></tr>
+<tr><td class="grp"></td><td>Mã 6</td><td class="num">-0.121</td><td class="num">-11.4%</td><td class="num small">[-23.0; +2.0]</td><td class="num">0.093<sup>ns</sup></td><td class="num">-10.5%</td><td class="num">0.069<sup>ns</sup></td><td><span class="b b-ns">— không</span></td></tr>
+<tr><td class="grp"></td><td>Thiếu dữ liệu</td><td class="num">-0.092</td><td class="num">-8.8%</td><td class="num small">[-20.9; +5.1]</td><td class="num">0.204<sup>ns</sup></td><td class="num">-7.9%</td><td class="num">0.182<sup>ns</sup></td><td><span class="b b-ns">— không</span></td></tr>
+</tbody>
+</table></div>
+<div class="callout key">
+  <h4>Độ vững được xác nhận</h4>
+  <p style="margin:6px 0">Hiệu ứng của mọi yếu tố ở Model A và Model B <b>gần như trùng khít</b>
+  (chênh lệch hệ số lớn nhất chỉ ~0,01). Việc hai final stage rất khác nhau — OLS và debiased Lasso —
+  vẫn cho cùng kết quả cho thấy các ước lượng <b>không phải là artifact của đa cộng tuyến</b> giữa các
+  yếu tố, mà phản ánh tín hiệu thật trong dữ liệu.</p>
+</div>
+<h3>Đọc kết quả theo từng yếu tố</h3>
+<ul>
+  <li><b>Vị trí (gần metro):</b> +27% (p&lt;0,001) — lớn nhất và ý nghĩa mạnh nhất.</li>
+  <li><b>Loại căn hộ:</b> phân hóa rõ — một số loại cao hơn Chung cư đáng kể (mã 2: +29%; Officetel:
+  +13%), riêng mã 5 thấp hơn ~17%. Mã 3, mã 4 chỉ ở mức ranh giới.</li>
+  <li><b>Nội thất:</b> các nhóm 2/3/4 đều <i>thấp hơn</i> nhóm tham chiếu (mã 1) một cách có ý nghĩa
+  (−5% đến −14%) — hàm ý nhóm tham chiếu là mức nội thất được định giá cao nhất.</li>
+  <li><b>Pháp lý:</b> chỉ <b>1 trong 5</b> nhóm (mã 2) có ý nghĩa; phần còn lại KTC đều cắt mốc 0 →
+  phần lớn <b>không</b> tác động sau kiểm soát.</li>
+  <li><b>Người bán:</b> hệ số ≈ 0 (−0,1%, p=0,96) — <b>null result</b> rõ ràng: công ty hay cá nhân
+  đăng tin <i>không</i> làm thay đổi giá/m².</li>
+</ul>
+
+<!-- ============ 5. CASE STUDY ============ -->
+<h2 id="casestudy"><span class="n">5</span>Case study bổ trợ: đào sâu yếu tố vị trí</h2>
+<p>
+Vì vị trí là yếu tố mạnh nhất, chúng tôi kiểm chứng riêng bằng hai phương pháp có giả định khác hẳn
+nhau, trên phạm vi 3km quanh tuyến metro.
+</p>
+<h3>5.1 · Causal Forest</h3>
+<p>
+Trên mẫu 299 quan sát (67 gần metro, 232 xa hơn), Causal Forest ước lượng hiệu ứng trung bình
+<b>ATE = +0,317</b>, tương đương <b>+37,4%</b> giá/m² (KTC 95%: <b>+5,6% … +78,6%</b>). Kết quả
+<b>cùng chiều</b> và mạnh hơn ước lượng +27% của mô hình đa yếu tố — củng cố kết luận vị trí có tác
+động dương.
+</p>
+<h3>5.2 · Hồi quy gián đoạn (RDD) quanh ngưỡng 800m</h3>
+<div class="tbl-scroll"><table>
+<thead><tr><th>Bandwidth</th><th>n</th><th>gần / xa</th><th>Hệ số</th><th>Hiệu ứng</th><th>KTC 95%</th><th>p-value</th></tr></thead>
+<tbody>
+<tr><td class="num">300m</td><td class="num">400</td><td class="num">258 / 142</td><td class="num">-0.088</td><td class="num">-8.41%</td><td class="num small">[-26.7; +14.4]</td><td class="num">0.438<sup>ns</sup></td></tr>
+<tr><td class="num">500m</td><td class="num">584</td><td class="num">317 / 267</td><td class="num">-0.150</td><td class="num">-13.94%</td><td class="num small">[-26.8; +1.2]</td><td class="num">0.069<sup>ns</sup></td></tr>
+<tr><td class="num">800m</td><td class="num">689</td><td class="num">359 / 330</td><td class="num">-0.131</td><td class="num">-12.25%</td><td class="num small">[-23.6; +0.8]</td><td class="num">0.065<sup>ns</sup></td></tr>
+<tr><td class="num">1200m</td><td class="num">956</td><td class="num">359 / 597</td><td class="num">-0.166</td><td class="num">-15.25%</td><td class="num small">[-25.4; -3.7]</td><td class="num">0.011<sup>*</sup></td></tr>
+</tbody>
+</table></div>
+<div class="callout warn">
+  <h4>Hai phương pháp cho hai chiều — giải thích thế nào?</h4>
+  <p style="margin:6px 0">RDD lại cho hệ số <b>âm</b> (−8% đến −15%, chỉ rõ ý nghĩa ở bandwidth rộng
+  nhất). Đây không phải mâu thuẫn "một đúng một sai" mà là <b>hai câu hỏi khác nhau</b>:</p>
+  <ul style="margin:6px 0">
+    <li><b>Mô hình đa yếu tố &amp; Causal Forest</b> kiểm soát khu vực → đo "chênh lệch do gần metro
+    <i>trong cùng một quận</i>".</li>
+    <li><b>RDD</b> so sánh các căn ngay sát hai bên ngưỡng 800m, <i>gộp mọi khu vực</i>. Trong phạm vi
+    3km, khoảng cách tới metro lại tương quan với độ "đắt đỏ" của địa bàn (nhiều khu trung tâm giá cao
+    nằm ở vành 800m–1200m), nên hiệu ứng cục bộ tại ngưỡng bị nhiễu bởi yếu tố khu vực mà RDD không
+    kiểm soát.</li>
+  </ul>
+  <p style="margin:6px 0">Vì mô hình đa yếu tố (n=6.500, có kiểm soát khu vực) trả lời sát câu hỏi
+  nghiên cứu hơn, ta lấy <b>+27%</b> làm ước lượng đáng tin, và ghi nhận RDD như một cảnh báo về độ
+  nhạy với cách xác định "vị trí".</p>
+</div>
+
+<!-- ============ 6. TRẢ LỜI ============ -->
+<h2 id="dienGiai"><span class="n">6</span>Diễn giải &amp; trả lời câu hỏi nghiên cứu</h2>
+<p>Sắp xếp năm yếu tố theo mức độ tác động nhân quả lên giá/m² (đã kiểm soát lẫn nhau và đặc điểm vật lý):</p>
+<ol>
+  <li><b>Vị trí (gần metro)</b> — <span style="color:var(--pos);font-weight:700">CÓ, mạnh &amp; vững nhất.</span>
+  +27% (đa yếu tố), +37% (Causal Forest), cùng chiều dương.</li>
+  <li><b>Loại căn hộ</b> — <span style="color:var(--pos);font-weight:700">CÓ ở một số nhóm.</span>
+  Chênh lệch tùy loại, từ +29% đến −17%.</li>
+  <li><b>Nội thất</b> — <span style="color:var(--pos);font-weight:700">CÓ.</span> Các nhóm khác biệt
+  −5% đến −14% so với nhóm tham chiếu.</li>
+  <li><b>Pháp lý</b> — <span style="color:#b45309;font-weight:700">PHẦN LỚN KHÔNG.</span> Chỉ 1/5 nhóm
+  có ý nghĩa; sau kiểm soát, loại giấy tờ hầu như không tự nó dịch chuyển giá.</li>
+  <li><b>Người bán</b> — <span style="color:var(--ns);font-weight:700">KHÔNG.</span> Công ty hay cá
+  nhân đăng tin không tác động lên giá/m² (~0%).</li>
+</ol>
+<div class="callout key">
+  <h4>Trả lời trực tiếp</h4>
+  <p style="margin:6px 0">Yếu tố có <b>tác động nhân quả</b> đến giá/m² là <b>vị trí (gần metro)</b>,
+  <b>loại căn hộ</b> và <b>tình trạng nội thất</b>. Ngược lại, <b>người bán</b> không tác động, và
+  <b>loại giấy tờ pháp lý</b> phần lớn chỉ là tương quan bề mặt — mất ý nghĩa khi kiểm soát các đặc
+  điểm khác.</p>
+</div>
+
+<!-- ============ 7. GIỚI HẠN ============ -->
+<h2 id="gioihan"><span class="n">7</span>Giới hạn &amp; giả định</h2>
+<ul>
+  <li><b>Giả định unconfoundedness (DML/Causal Forest):</b> kết quả chỉ nhân quả nếu không còn biến
+  gây nhiễu quan trọng bị bỏ sót ngoài các biến đã kiểm soát (ví dụ: chất lượng dự án, thương hiệu
+  chủ đầu tư, hướng nhà — chưa có trong dữ liệu).</li>
+  <li><b>Nhãn danh mục chưa đầy đủ:</b> nội thất, pháp lý, một phần loại căn hộ còn ở dạng mã số; chưa
+  gắn được nhãn text chính thức từ định nghĩa trường của Chợ Tốt, nên diễn giải theo mã.</li>
+  <li><b>Căng thẳng Causal Forest ↔ RDD:</b> chiều hiệu ứng của vị trí nhạy với cách định nghĩa và
+  phạm vi mẫu (đã thảo luận ở §5).</li>
+  <li><b>Giá rao ≠ giá giao dịch:</b> dữ liệu là giá <i>rao bán</i>, có thể lệch so với giá chốt thực tế.</li>
+  <li><b>Chọn mẫu:</b> phần Causal Forest giới hạn trong 3km quanh metro (n=299) nên kết luận của
+  riêng phần đó áp dụng cho vùng gần tuyến metro.</li>
+</ul>
+
+<!-- ============ 8. KẾT LUẬN ============ -->
+<h2 id="ketluan"><span class="n">8</span>Kết luận</h2>
+<p>
+Bằng Double Machine Learning trên hơn 6.600 tin rao căn hộ TP.HCM và kiểm chứng chéo qua hai cặp mô
+hình nhân quả, nghiên cứu cho thấy <b>không phải mọi đặc điểm tương quan với giá đều thực sự tác động
+lên giá</b>. Sau khi tách bạch lẫn nhau và loại nhiễu từ đặc điểm vật lý, <b>vị trí (gần metro)</b>
+nổi lên là yếu tố nhân quả mạnh và vững nhất, tiếp theo là <b>loại căn hộ</b> và <b>nội thất</b>;
+trong khi <b>người bán</b> không có vai trò và <b>giấy tờ pháp lý</b> phần lớn chỉ phản ánh tương quan.
+Sự đồng thuận giữa LinearDML và SparseLinearDML khẳng định độ tin cậy của các ước lượng này.
+</p>
+
+<!-- ============ PHỤ LỤC ============ -->
+<h2 id="phuluc"><span class="n">§</span>Phụ lục</h2>
+<h3>A. Thông số ước lượng đầy đủ</h3>
+<p>Xem bảng §4.2 cho toàn bộ hệ số, khoảng tin cậy và p-value của cả hai mô hình.</p>
+<h3>B. Đa cộng tuyến giữa các yếu tố</h3>
+<p>
+Ma trận tương quan giữa 16 cột yếu tố cho thấy hầu hết |corr| &lt; 0,3; cặp cao nhất nằm trong nhóm
+pháp lý (mã 6 ↔ thiếu dữ liệu, ≈ −0,60) và giữa các nhóm one-hot cùng biến — đây là tương quan cơ học
+của mã hóa one-hot, không gây lo ngại cho suy luận. Việc Model B (Lasso) trùng kết quả Model A xác
+nhận đa cộng tuyến không bóp méo ước lượng.
+</p>
+<h3>C. Tái lập</h3>
+<p>
+Toàn bộ pipeline (làm sạch, tính khoảng cách metro theo Haversine, giới hạn phạm vi, DML/Causal
+Forest/RDD) nằm trong notebook <code>ptdltmfinalv2.ipynb</code>. Thư viện chính:
+<code>econml 0.16</code>, <code>lightgbm</code>, <code>statsmodels</code>.
+</p>
+
+<footer>
+  Báo cáo phân tích nhân quả · Dữ liệu Chợ Tốt (TP.HCM) · Phương pháp: Double Machine Learning
+  (EconML). Các con số trích trực tiếp từ kết quả notebook.
+</footer>
+
+</main>
+</div>
 </body>
 </html>
