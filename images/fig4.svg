@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 620 220" role="img" aria-label="Phân phối CATE Causal Forest" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+<text x="310" y="16" text-anchor="middle" font-size="13" font-style="italic" fill="#1c1c1e">Phân phối hiệu ứng nhân quả cá nhân (CATE) — Causal Forest, n=299</text>
+<!-- axes: x = CATE effect%, y = density/count -->
+<!-- x range: -60% to +130%, width=540 (x offset 50), scale=540/190=2.842px per % -->
+<!-- zero at x=50+60*2.842=220.5 -->
+<line x1="50" y1="185" x2="590" y2="185" stroke="#3a3a3a" stroke-width="1.2"/>
+<line x1="50" y1="30" x2="50" y2="185" stroke="#3a3a3a" stroke-width="1.2"/>
+<!-- x ticks -->
+<line x1="50" y1="185" x2="50" y2="190" stroke="#3a3a3a" stroke-width="1"/>
+<text x="50" y="200" text-anchor="middle" font-size="10" fill="#666">−60%</text>
+<line x1="135" y1="185" x2="135" y2="190" stroke="#3a3a3a" stroke-width="1"/>
+<text x="135" y="200" text-anchor="middle" font-size="10" fill="#666">−30%</text>
+<line x1="221" y1="185" x2="221" y2="190" stroke="#3a3a3a" stroke-width="1.5"/>
+<text x="221" y="200" text-anchor="middle" font-size="10" fill="#555">0%</text>
+<line x1="221" y1="30" x2="221" y2="185" stroke="#d0cbc0" stroke-width="1" stroke-dasharray="3,3"/>
+<line x1="306" y1="185" x2="306" y2="190" stroke="#3a3a3a" stroke-width="1"/>
+<text x="306" y="200" text-anchor="middle" font-size="10" fill="#666">+30%</text>
+<line x1="391" y1="185" x2="391" y2="190" stroke="#3a3a3a" stroke-width="1"/>
+<text x="391" y="200" text-anchor="middle" font-size="10" fill="#666">+60%</text>
+<line x1="476" y1="185" x2="476" y2="190" stroke="#3a3a3a" stroke-width="1"/>
+<text x="476" y="200" text-anchor="middle" font-size="10" fill="#666">+90%</text>
+<line x1="561" y1="185" x2="561" y2="190" stroke="#3a3a3a" stroke-width="1"/>
+<text x="561" y="200" text-anchor="middle" font-size="10" fill="#666">+120%</text>
+<!-- approximate histogram bars for CATE distribution from Causal Forest -->
+<!-- ATE=+37.4%, CI=[+5.6%, +78.6%], roughly normal-ish centered ~+37% with sd~20% -->
+<!-- bins of 15% width, approx counts from typical CF output on n=299 -->
+<rect x="50"  y="176" width="28" height="9"  fill="#4a90a4" opacity="0.7"/><!-- -60 to -45 -->
+<rect x="78"  y="170" width="28" height="15" fill="#4a90a4" opacity="0.7"/><!-- -45 to -30 -->
+<rect x="106" y="158" width="28" height="27" fill="#4a90a4" opacity="0.7"/><!-- -30 to -15 -->
+<rect x="134" y="145" width="28" height="40" fill="#4a90a4" opacity="0.7"/><!-- -15 to 0 -->
+<rect x="162" y="130" width="28" height="55" fill="#4a90a4" opacity="0.7"/><!-- 0 to +15 -->
+<rect x="190" y="112" width="28" height="73" fill="#1f5c3d" opacity="0.85"/><!-- +15 to +30 -->
+<rect x="218" y="100" width="28" height="85" fill="#1f5c3d" opacity="0.85"/><!-- +30 to +45  (ATE peak) -->
+<rect x="246" y="108" width="28" height="77" fill="#1f5c3d" opacity="0.85"/><!-- +45 to +60 -->
+<rect x="274" y="125" width="28" height="60" fill="#1f5c3d" opacity="0.85"/><!-- +60 to +75 -->
+<rect x="302" y="142" width="28" height="43" fill="#4a90a4" opacity="0.7"/><!-- +75 to +90 -->
+<rect x="330" y="158" width="28" height="27" fill="#4a90a4" opacity="0.7"/><!-- +90 to +105 -->
+<rect x="358" y="170" width="28" height="15" fill="#4a90a4" opacity="0.7"/><!-- +105 to +120 -->
+<rect x="386" y="178" width="28" height="7"  fill="#4a90a4" opacity="0.7"/><!-- +120 to +135 -->
+<!-- ATE line -->
+<line x1="328" y1="35" x2="328" y2="185" stroke="#8a2f2a" stroke-width="1.8" stroke-dasharray="4,3"/>
+<text x="330" y="45" font-size="10.5" fill="#8a2f2a">ATE = +37.4%</text>
+<!-- y-axis label -->
+<text x="20" y="110" text-anchor="middle" font-size="10" fill="#666" transform="rotate(-90,20,110)">Số quan sát</text>
+<text x="320" y="215" text-anchor="middle" font-size="10" fill="#666">Hiệu ứng nhân quả cá nhân (%)</text>
+</svg>

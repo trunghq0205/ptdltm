@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 860 380" role="img" aria-label="So sánh hiệu ứng Model A vs B" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif" font-size="11">
+<!-- title -->
+<text x="430" y="18" text-anchor="middle" font-size="13" font-style="italic" fill="#1c1c1e">So sánh hiệu ứng (%) — Mô hình A (LinearDML) và Mô hình B (SparseLinearDML)</text>
+<!-- axes -->
+<!-- zero line at x=200, scale: 1% = 3.6px, range -20..+35 -->
+<!-- x: 200 + val*3.6 -->
+<line x1="200" y1="32" x2="200" y2="358" stroke="#3a3a3a" stroke-width="1.2"/>
+<!-- grid lines -->
+<line x1="128" y1="32" x2="128" y2="358" stroke="#e0dbd0" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="128" y="28" text-anchor="middle" font-size="10" fill="#888">-20</text>
+<line x1="164" y1="32" x2="164" y2="358" stroke="#e0dbd0" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="164" y="28" text-anchor="middle" font-size="10" fill="#888">-10</text>
+<text x="200" y="28" text-anchor="middle" font-size="10" fill="#888">0</text>
+<line x1="236" y1="32" x2="236" y2="358" stroke="#e0dbd0" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="236" y="28" text-anchor="middle" font-size="10" fill="#888">+10</text>
+<line x1="272" y1="32" x2="272" y2="358" stroke="#e0dbd0" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="272" y="28" text-anchor="middle" font-size="10" fill="#888">+20</text>
+<line x1="308" y1="32" x2="308" y2="358" stroke="#e0dbd0" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="308" y="28" text-anchor="middle" font-size="10" fill="#888">+30</text>
+<!-- legend -->
+<rect x="560" y="20" width="12" height="10" fill="#1f5c3d" opacity="0.85"/>
+<text x="576" y="30" fill="#333">Mô hình A (LinearDML)</text>
+<rect x="560" y="36" width="12" height="10" fill="#4a90a4" opacity="0.85"/>
+<text x="576" y="46" fill="#333">Mô hình B (SparseLinearDML)</text>
+<!-- rows: label area 0..199, bars from 200 -->
+<!-- row height=20, gap=4, group gap=8 -->
+<!-- Groups: Vị trí(1), Người bán(1), Nội thất(4), Loại căn hộ(5), Pháp lý(5) = 16 items -->
+<!-- Data: [label, A%, B%, sig] -->
+<!-- y positions: group headers + rows -->
+<!-- Vị trí -->
+<text x="6" y="62" font-weight="700" fill="#22314e" font-size="11.5">Vị trí</text>
+<text x="16" y="80" fill="#444">Gần metro ≤800m</text>
+<rect x="200" y="68" width="98.3" height="9" fill="#1f5c3d" opacity="0.85"/>
+<rect x="200" y="79" width="98.6" height="9" fill="#4a90a4" opacity="0.85"/>
+<text x="302" y="76" fill="#1f5c3d" font-size="10">+27.3%</text>
+<!-- Người bán -->
+<text x="6" y="102" font-weight="700" fill="#22314e" font-size="11.5">Người bán</text>
+<text x="16" y="120" fill="#444">Công ty / môi giới</text>
+<rect x="199.6" y="108" width="0.4" height="9" fill="#9b968a" opacity="0.7"/>
+<rect x="199.6" y="119" width="0.4" height="9" fill="#9b968a" opacity="0.4"/>
+<text x="204" y="116" fill="#9b968a" font-size="10">−0.1% n.s.</text>
+<!-- Nội thất -->
+<text x="6" y="142" font-weight="700" fill="#22314e" font-size="11.5">Nội thất</text>
+<text x="16" y="160" fill="#444">Mã 2</text>
+<rect x="180.6" y="148" width="19.4" height="9" fill="#8a2f2a" opacity="0.85"/>
+<rect x="180.4" y="159" width="19.6" height="9" fill="#c0605a" opacity="0.7"/>
+<text x="177" y="156" text-anchor="end" fill="#8a2f2a" font-size="10">−5.4%</text>
+<text x="16" y="178" fill="#444">Mã 3</text>
+<rect x="168.3" y="166" width="31.7" height="9" fill="#8a2f2a" opacity="0.85"/>
+<rect x="168.0" y="177" width="32.0" height="9" fill="#c0605a" opacity="0.7"/>
+<text x="165" y="174" text-anchor="end" fill="#8a2f2a" font-size="10">−8.8%</text>
+<text x="16" y="196" fill="#444">Mã 4</text>
+<rect x="149.9" y="184" width="50.1" height="9" fill="#8a2f2a" opacity="0.85"/>
+<rect x="149.6" y="195" width="50.4" height="9" fill="#c0605a" opacity="0.7"/>
+<text x="147" y="192" text-anchor="end" fill="#8a2f2a" font-size="10">−13.9%</text>
+<text x="16" y="214" fill="#444">Thiếu DL</text>
+<rect x="170.0" y="202" width="30.0" height="9" fill="#8a2f2a" opacity="0.85"/>
+<rect x="170.1" y="213" width="29.9" height="9" fill="#c0605a" opacity="0.7"/>
+<text x="167" y="210" text-anchor="end" fill="#8a2f2a" font-size="10">−8.3%</text>
+<!-- Loại căn hộ -->
+<text x="6" y="236" font-weight="700" fill="#22314e" font-size="11.5">Loại căn hộ</text>
+<text x="16" y="254" fill="#444">Mã 2</text>
+<rect x="200" y="242" width="105.8" height="9" fill="#1f5c3d" opacity="0.85"/>
+<rect x="200" y="253" width="105.5" height="9" fill="#4a90a4" opacity="0.7"/>
+<text x="309" y="250" fill="#1f5c3d" font-size="10">+29.4%</text>
+<text x="16" y="272" fill="#444">Mã 3</text>
+<rect x="200" y="260" width="50.8" height="9" fill="#9b968a" opacity="0.5"/>
+<rect x="200" y="271" width="50.4" height="9" fill="#9b968a" opacity="0.35"/>
+<text x="255" y="268" fill="#9b968a" font-size="10">+14.1% n.s.</text>
+<text x="16" y="290" fill="#444">Mã 5</text>
+<rect x="139.9" y="278" width="60.1" height="9" fill="#8a2f2a" opacity="0.85"/>
+<rect x="138.8" y="289" width="61.2" height="9" fill="#c0605a" opacity="0.7"/>
+<text x="137" y="286" text-anchor="end" fill="#8a2f2a" font-size="10">−16.7%</text>
+<text x="16" y="308" fill="#444">Officetel</text>
+<rect x="200" y="296" width="47.9" height="9" fill="#1f5c3d" opacity="0.85"/>
+<rect x="200" y="307" width="47.2" height="9" fill="#4a90a4" opacity="0.7"/>
+<text x="252" y="304" fill="#1f5c3d" font-size="10">+13.3%</text>
+<!-- Pháp lý -->
+<text x="6" y="330" font-weight="700" fill="#22314e" font-size="11.5">Pháp lý</text>
+<text x="16" y="348" fill="#444">Mã 2</text>
+<rect x="134.8" y="336" width="65.2" height="9" fill="#8a2f2a" opacity="0.85"/>
+<rect x="135.5" y="347" width="64.5" height="9" fill="#c0605a" opacity="0.7"/>
+<text x="132" y="344" text-anchor="end" fill="#8a2f2a" font-size="10">−18.1%</text>
+</svg>
