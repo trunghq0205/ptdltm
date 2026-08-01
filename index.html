@@ -7,7 +7,48 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="wrap">
+<div class="mode-gate" id="modeGate" role="dialog" aria-modal="true" aria-labelledby="modeTitle">
+  <div class="mode-gate__glow mode-gate__glow--one"></div>
+  <div class="mode-gate__glow mode-gate__glow--two"></div>
+  <div class="mode-gate__content">
+    <div class="mode-gate__eyebrow">Báo cáo môn học Phân tích dữ liệu thông minh · K35 - 2026</div>
+    <h1 id="modeTitle">Phân tích yếu tố nhân quả<br>tác động đến giá căn hộ ở TP. Hồ Chí Minh</h1>
+    <p>Hãy chọn phiên bản báo cáo theo nhu cầu của bạn</p>
+    <div class="mode-gate__authors" aria-label="Học viên thực hiện">
+      <span class="mode-gate__authors-label">Học viên thực hiện</span>
+      <span class="mode-gate__author"><b>Phan Nguyễn Anh Vinh</b><small>MSHV: 25C11073</small></span>
+      <span class="mode-gate__author"><b>Huỳnh Quang Trung</b><small>MSHV: 25C11025</small></span>
+    </div>
+    <div class="mode-options">
+      <button class="mode-card" type="button" data-mode="report">
+        <span class="mode-card__icon" aria-hidden="true">Aa</span>
+        <span class="mode-card__copy">
+          <strong>Báo cáo học thuật</strong>
+          <small>Phiên bản báo cáo đầy đủ, tra cứu bảng biểu và phương pháp.</small>
+        </span>
+        <span class="mode-card__arrow" aria-hidden="true">→</span>
+      </button>
+      <button class="mode-card mode-card--accent" type="button" data-mode="present">
+        <span class="mode-card__icon" aria-hidden="true">▶</span>
+        <span class="mode-card__copy">
+          <strong>Slide trình bày</strong>
+          <small>Phiên bản rút gọn, dùng để trình bày.</small>
+        </span>
+        <span class="mode-card__arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+    <div class="mode-gate__stats" aria-label="Thông tin nghiên cứu">
+      <span><b>6.619</b> tin rao</span><span><b>4</b> mô hình</span><span><b>5</b> yếu tố</span>
+    </div>
+  </div>
+</div>
+
+<div class="view-toolbar" id="viewToolbar" aria-label="Chế độ xem">
+  <button type="button" data-switch="report">Report</button>
+  <button type="button" data-switch="present">Presentation</button>
+</div>
+
+<div class="wrap report-view" id="reportView">
 <nav class="toc">
   <div class="toc-h">Mục lục</div>
   <a href="#tomtat">Tóm tắt</a>
@@ -20,7 +61,7 @@
   <a href="#ketluan">V · Kết luận</a>
   <a href="#phuluc">Phụ lục</a>
 </nav>
-<main>
+<main class="report-main" id="reportMain">
 
 <header class="titleblock">
   <div class="kicker">Báo cáo phân tích dữ liệu</div>
@@ -495,5 +536,16 @@ Forest / RDD) nằm trong notebook <code>ptdltmfinalv2.ipynb</code>. Thư viện
 
 </main>
 </div>
+<div class="presentation-view" id="presentationView" aria-hidden="true">
+  <div class="deck" id="deck"></div>
+  <div class="deck-controls" aria-label="Điều khiển trình chiếu">
+    <button type="button" id="prevSlide" aria-label="Slide trước">←</button>
+    <div class="deck-progress" aria-hidden="true"><span id="deckProgressBar"></span></div>
+    <span class="deck-counter" id="deckCounter">01 / 01</span>
+    <button type="button" id="nextSlide" aria-label="Slide tiếp theo">→</button>
+    <button type="button" id="fullscreenToggle" aria-label="Bật toàn màn hình" title="Toàn màn hình">⛶</button>
+  </div>
+</div>
+<script src="app.js"></script>
 </body>
 </html>
