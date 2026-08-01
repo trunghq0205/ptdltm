@@ -111,6 +111,12 @@ figcaption { font-size:13px; color:var(--fg); margin-top:10px; text-align:justif
 figcaption b { font-weight:700; }
 .note { font-size:13px; color:var(--muted); font-style:italic; margin:6px 0; }
 
+/* ---- Công thức toán ---- */
+.formula { text-align:center; margin:18px 0; font-size:16px; color:var(--navy);
+  font-family:'Cambria Math',Cambria,'Times New Roman',Georgia,serif; overflow-x:auto;
+  line-height:1.9; }
+.formula sub { font-size:.72em; } .formula sup { font-size:.72em; }
+
 footer { border-top:1px solid var(--line); margin-top:56px; padding-top:18px;
   color:var(--faint); font-size:12.5px; text-align:center; font-variant:small-caps; letter-spacing:.04em; }
 
