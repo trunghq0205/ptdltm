@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 640 270" role="img" aria-label="RDD scatter plot" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+<text x="320" y="16" text-anchor="middle" font-size="13" font-style="italic" fill="#1c1c1e">Hồi quy gián đoạn tại ngưỡng 800m — log(giá/m²) theo khoảng cách tới metro</text>
+<!-- plot area: x=60..600 (540px = 1600m, so 1m=0.3375px), y=35..235 (200px) -->
+<!-- x: distance 0..1600m. Threshold at 800m = x_pos=60+800*0.3375=330 -->
+<!-- y: log price range approx 2.5..5.5, scale: 200/(5.5-2.5)=66.67px per unit -->
+<!-- y_pos = 235 - (val-2.5)*66.67 -->
+<line x1="60" y1="235" x2="600" y2="235" stroke="#3a3a3a" stroke-width="1.2"/>
+<line x1="60" y1="35" x2="60" y2="235" stroke="#3a3a3a" stroke-width="1.2"/>
+<!-- x axis labels -->
+<text x="60"  y="250" text-anchor="middle" font-size="10" fill="#666">0m</text>
+<text x="195" y="250" text-anchor="middle" font-size="10" fill="#666">400m</text>
+<text x="330" y="250" text-anchor="middle" font-size="10" fill="#666">800m</text>
+<text x="465" y="250" text-anchor="middle" font-size="10" fill="#666">1200m</text>
+<text x="600" y="250" text-anchor="middle" font-size="10" fill="#666">1600m</text>
+<!-- y axis labels -->
+<text x="55" y="238" text-anchor="end" font-size="10" fill="#666">2.5</text>
+<text x="55" y="172" text-anchor="end" font-size="10" fill="#666">3.5</text>
+<text x="55" y="105" text-anchor="end" font-size="10" fill="#666">4.5</text>
+<text x="55" y="38" text-anchor="end" font-size="10" fill="#666">5.5</text>
+<line x1="60" y1="172" x2="600" y2="172" stroke="#e8e3d8" stroke-width="1" stroke-dasharray="2,3"/>
+<line x1="60" y1="105" x2="600" y2="105" stroke="#e8e3d8" stroke-width="1" stroke-dasharray="2,3"/>
+<!-- threshold line -->
+<line x1="330" y1="35" x2="330" y2="235" stroke="#8a2f2a" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="332" y="48" font-size="10" fill="#8a2f2a">800m</text>
+<!-- scatter dots: near side (0-800m), ~359 pts; far side (800-1600m), ~330 pts -->
+<!-- Near side: higher prices (log~3.8-4.6), spread -->
+<!-- Far side: mix, slightly lower at boundary then rising (confounded by district) -->
+<!-- Approximating with representative points - near side green, far side blue -->
+<!-- Near side dots (x=60..330) -->
+<circle cx="80"  cy="115" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="90"  cy="130" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="95"  cy="145" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="100" cy="108" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="105" cy="155" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="110" cy="125" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="115" cy="140" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="118" cy="170" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="122" cy="118" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="128" cy="148" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="132" cy="132" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="138" cy="162" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="142" cy="112" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="148" cy="178" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="152" cy="135" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="158" cy="152" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="162" cy="120" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="168" cy="158" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="172" cy="142" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="178" cy="168" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="182" cy="128" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="188" cy="145" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="192" cy="115" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="198" cy="155" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="202" cy="138" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="208" cy="172" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="212" cy="122" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="218" cy="148" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="222" cy="135" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="228" cy="162" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="232" cy="118" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="238" cy="150" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="242" cy="130" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="248" cy="165" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="252" cy="142" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="258" cy="125" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="262" cy="158" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="268" cy="138" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="272" cy="175" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="278" cy="128" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="282" cy="148" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="288" cy="118" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="292" cy="162" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="298" cy="135" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="302" cy="152" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="308" cy="122" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="312" cy="168" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="318" cy="142" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<circle cx="322" cy="130" r="2.2" fill="#1f5c3d" opacity="0.4"/>
+<!-- Near side regression line: slight downward slope (farther from center = slightly lower) -->
+<!-- From x=60,y_log=4.2 to x=330,y_log=3.9 => y=235-(4.2-2.5)*66.67=122 to 235-(3.9-2.5)*66.67=142 -->
+<line x1="60" y1="122" x2="330" y2="142" stroke="#1f5c3d" stroke-width="2.2" opacity="0.9"/>
+<!-- Far side dots (x=330..600) -->
+<circle cx="338" cy="148" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="342" cy="165" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="348" cy="132" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="352" cy="158" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="358" cy="175" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="362" cy="142" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="368" cy="162" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="372" cy="128" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="378" cy="178" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="382" cy="152" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="388" cy="138" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="392" cy="168" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="398" cy="145" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="402" cy="160" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="408" cy="130" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="412" cy="172" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="418" cy="148" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="422" cy="135" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="428" cy="165" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="432" cy="152" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="438" cy="122" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="442" cy="180" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="448" cy="142" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="452" cy="158" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="458" cy="132" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="462" cy="175" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="468" cy="148" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="472" cy="162" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="478" cy="138" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="482" cy="155" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="488" cy="128" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="492" cy="170" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="498" cy="145" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="502" cy="160" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="508" cy="135" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="512" cy="175" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="518" cy="150" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="522" cy="165" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="528" cy="140" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="532" cy="158" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="538" cy="130" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="542" cy="172" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="548" cy="148" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="552" cy="163" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="558" cy="138" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="562" cy="178" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="568" cy="152" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="572" cy="142" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="578" cy="168" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="582" cy="155" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="588" cy="145" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<circle cx="592" cy="170" r="2.2" fill="#4a90a4" opacity="0.4"/>
+<!-- Far side regression line: RDD coef for bw=800 is -0.131, so far side is HIGHER -->
+<!-- Near intercept at 800m: ~3.9 log = y=142. Far side at 800m: ~3.9+0.131=4.031 = y=235-(4.031-2.5)*66.67=133 -->
+<!-- Slope roughly flat to slight positive for far side (districts further confounded) -->
+<line x1="330" y1="133" x2="600" y2="145" stroke="#4a90a4" stroke-width="2.2" opacity="0.9"/>
+<!-- gap annotation -->
+<line x1="325" y1="133" x2="325" y2="142" stroke="#8a2f2a" stroke-width="1.5"/>
+<line x1="322" y1="133" x2="328" y2="133" stroke="#8a2f2a" stroke-width="1.5"/>
+<line x1="322" y1="142" x2="328" y2="142" stroke="#8a2f2a" stroke-width="1.5"/>
+<text x="310" y="139" text-anchor="end" font-size="9.5" fill="#8a2f2a">−8…−15%</text>
+<!-- legend -->
+<rect x="400" y="40" width="10" height="10" fill="#1f5c3d" opacity="0.85"/>
+<text x="414" y="49" font-size="10.5" fill="#333">Gần metro (&lt;800m)</text>
+<rect x="400" y="56" width="10" height="10" fill="#4a90a4" opacity="0.85"/>
+<text x="414" y="65" font-size="10.5" fill="#333">Xa metro (≥800m)</text>
+<!-- axis labels -->
+<text x="320" y="263" text-anchor="middle" font-size="10" fill="#666">Khoảng cách tới ga metro (m)</text>
+<text x="18" y="135" text-anchor="middle" font-size="10" fill="#666" transform="rotate(-90,18,135)">log(giá/m²)</text>
+</svg>

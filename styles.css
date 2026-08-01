@@ -1,0 +1,128 @@
+:root {
+  --bg:#fbfaf6; --fg:#1c1c1e; --muted:#5f5b52; --faint:#8a857a;
+  --line:#ddd7c9; --rule:#3a3a3a;
+  --navy:#22314e; --maroon:#7a2230;
+  --pos:#1f5c3d; --neg:#8a2f2a; --ns:#8a857a;
+  --serif:Arial,Helvetica,'Helvetica Neue',sans-serif;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:20px; }
+body {
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:var(--serif); line-height:1.66; font-size:17px;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+.wrap { display:grid; grid-template-columns:236px minmax(0,1fr); gap:52px;
+  max-width:1140px; margin:0 auto; padding:0 28px; }
+
+/* ---- Mục lục ---- */
+nav.toc { position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto;
+  padding:40px 0; font-size:13.5px; border-right:1px solid var(--line); }
+nav.toc .toc-h { font-variant:small-caps; letter-spacing:.12em; font-size:12px;
+  color:var(--faint); margin-bottom:14px; font-weight:700; }
+nav.toc a { display:block; color:var(--muted); text-decoration:none; padding:4px 0; }
+nav.toc a:hover { color:var(--maroon); }
+nav.toc a.sub { padding-left:16px; font-size:12.5px; color:var(--faint); }
+
+main { max-width:730px; padding:52px 0 100px; min-width:0; }
+
+/* ---- Khối tiêu đề ---- */
+header.titleblock { text-align:center; margin-bottom:40px; }
+.kicker { font-variant:small-caps; letter-spacing:.2em; font-size:12.5px; color:var(--maroon);
+  font-weight:700; margin-bottom:14px; }
+h1 { font-size:30px; line-height:1.28; margin:0 0 12px; color:var(--navy); font-weight:700;
+  letter-spacing:-.005em; }
+.subtitle { font-style:italic; color:var(--muted); font-size:17.5px; margin:0 auto 18px; max-width:600px; }
+.byline { font-size:13.5px; color:var(--faint); font-variant:small-caps; letter-spacing:.08em; }
+.rule-double { border:0; border-top:3px double var(--rule); margin:22px auto 16px; width:100%; }
+.meta { font-size:13px; color:var(--muted); text-align:center; line-height:1.9; }
+.meta b { color:var(--fg); font-weight:700; }
+
+/* ---- Đề mục ---- */
+h2 { font-size:21px; margin:46px 0 4px; color:var(--navy); font-weight:700;
+  padding-bottom:7px; border-bottom:1px solid var(--rule); scroll-margin-top:16px; }
+h2 .n { color:var(--maroon); margin-right:10px; }
+h3 { font-size:17px; margin:26px 0 8px; color:var(--navy); font-weight:700; font-style:italic; }
+p { margin:12px 0; }
+main > p, .abstract p, .callout p { text-align:justify; }
+ul,ol { margin:12px 0; padding-left:24px; } li { margin:7px 0; }
+code { font-family:'SFMono-Regular',Consolas,monospace; background:#f1eee6; padding:1px 5px;
+  border-radius:3px; font-size:13.5px; }
+sup { font-size:.72em; }
+em, i { }
+
+/* ---- Trích dẫn câu hỏi ---- */
+.q { font-size:17.5px; font-style:italic; color:var(--navy); text-align:justify;
+  border-left:3px solid var(--maroon); padding:6px 0 6px 22px; margin:18px 0; }
+
+/* ---- Tóm tắt (abstract) ---- */
+.abstract { margin:26px 24px 30px; padding:20px 0; border-top:1.5px solid var(--rule);
+  border-bottom:1.5px solid var(--rule); font-size:15.5px; line-height:1.62; }
+.abstract .lbl { font-variant:small-caps; letter-spacing:.14em; font-weight:700; font-size:12.5px;
+  color:var(--maroon); margin-bottom:8px; }
+.abstract p { margin:8px 0; }
+
+/* ---- Callout ---- */
+.callout { margin:22px 0; padding:2px 20px; border-left:3px solid var(--navy); background:#f5f3ec; }
+.callout.warn { border-left-color:var(--maroon); }
+.callout .lbl { font-variant:small-caps; letter-spacing:.1em; font-weight:700; font-size:12.5px;
+  color:var(--navy); margin:14px 0 2px; }
+.callout.warn .lbl { color:var(--maroon); }
+
+/* ---- Thẻ tóm tắt kết quả ---- */
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(128px,1fr)); gap:0;
+  margin:24px 0; border:1px solid var(--line); }
+.pcard { padding:14px 12px; border-right:1px solid var(--line); text-align:center; }
+.pcard:last-child { border-right:0; }
+.pcard .f { font-size:12px; color:var(--muted); font-variant:small-caps; letter-spacing:.05em; }
+.pcard .v { font-size:21px; font-weight:700; margin:5px 0 3px; }
+.pcard .v.pos { color:var(--pos); } .pcard .v.neg { color:var(--neg); } .pcard .v.ns { color:var(--ns); }
+.pcard .t { font-size:12px; color:var(--muted); font-style:italic; }
+
+/* ---- Bảng (booktabs) ---- */
+.tcap { font-size:13.5px; color:var(--fg); margin:24px 0 6px; }
+.tcap b { font-weight:700; }
+.tbl-scroll { overflow-x:auto; margin:0 0 8px; }
+table { border-collapse:collapse; width:100%; font-size:13.5px; }
+thead th { text-align:left; font-weight:700; color:var(--navy); padding:7px 10px; white-space:nowrap;
+  border-top:1.6px solid var(--rule); border-bottom:1px solid var(--rule); font-size:12.8px; }
+tbody td { padding:6px 10px; border-bottom:1px solid #ebe6da; }
+tbody tr:last-child td { border-bottom:1.6px solid var(--rule); }
+td.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+td.small { font-size:12.3px; color:var(--muted); }
+td.grp { font-weight:700; color:var(--navy); }
+.st { font-size:.72em; color:var(--maroon); margin-left:1px; }
+.v-pos { color:var(--pos); font-weight:600; }
+.v-neg { color:var(--neg); font-weight:600; }
+.v-ns  { color:var(--ns); }
+
+/* ---- Hình ---- */
+figure { margin:24px 0; }
+.figbox { background:#fff; border:1px solid var(--line); padding:16px 14px 6px; overflow-x:auto; }
+.figbox svg, .figbox img { width:100%; min-width:640px; height:auto; display:block; }
+.legend { display:flex; gap:22px; flex-wrap:wrap; font-size:12px; color:var(--muted);
+  padding:8px 6px 2px; font-style:italic; }
+.legend span::before { content:""; display:inline-block; width:10px; height:10px; border-radius:50%;
+  margin-right:6px; vertical-align:0; }
+.legend .lp::before { background:var(--pos); }
+.legend .ln::before { background:var(--neg); }
+.legend .lz::before { background:var(--ns); }
+figcaption { font-size:13px; color:var(--fg); margin-top:10px; text-align:justify; }
+figcaption b { font-weight:700; }
+.note { font-size:13px; color:var(--muted); font-style:italic; margin:6px 0; }
+
+/* ---- Công thức toán ---- */
+.formula { text-align:center; margin:18px 0; font-size:16px; color:var(--navy);
+  font-family:'Cambria Math',Cambria,'Times New Roman',Georgia,serif; overflow-x:auto;
+  line-height:1.9; }
+.formula sub { font-size:.72em; } .formula sup { font-size:.72em; }
+
+footer { border-top:1px solid var(--line); margin-top:56px; padding-top:18px;
+  color:var(--faint); font-size:12.5px; text-align:center; font-variant:small-caps; letter-spacing:.04em; }
+
+@media (max-width:880px) {
+  .wrap { grid-template-columns:1fr; gap:0; padding:0 20px; }
+  nav.toc { display:none; }
+  main { padding:32px 0 60px; }
+  h1 { font-size:25px; }
+}
