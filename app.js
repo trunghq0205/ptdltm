@@ -16,9 +16,9 @@
   let slides = [];
   let activeSlide = 0;
   let deckBuilt = false;
-  let wheelLocked = false;
   let touchStartX = 0;
   let touchStartY = 0;
+  let controlsHideTimer = 0;
 
   body.classList.add("mode-picker-open");
 
@@ -70,23 +70,91 @@
   }
 
   function nodeWeight(node) {
-    if (node.matches("h3")) return 0.8;
-    if (node.matches("figure,.tbl-scroll")) return 8;
-    if (node.matches(".callout")) return 6;
-    if (node.matches(".cards")) return 5;
-    if (node.matches(".formula,.q")) return 3;
-    if (node.matches("ul,ol")) return Math.max(2, node.querySelectorAll(":scope > li").length * 1.35);
+    if (node.matches("h3")) return 0.7;
+    if (node.matches("figure,.tbl-scroll")) return 9.5;
+    if (node.matches(".callout")) return 7.5;
+    if (node.matches(".cards")) return 6;
+    if (node.matches(".formula,.q")) return 3.5;
+    if (node.matches("ul,ol")) {
+      const items = node.querySelectorAll(":scope > li").length;
+      const words = (node.textContent.trim().match(/\S+/g) || []).length;
+      return Math.max(2, items * 1.35 + words / 105);
+    }
     const words = (node.textContent.trim().match(/\S+/g) || []).length;
-    return Math.max(1, words / 62);
+    return Math.max(1, words / 50);
+  }
+
+  function splitList(list, maxItems = 3, maxWords = 115) {
+    const items = Array.from(list.querySelectorAll(":scope > li"));
+    if (items.length <= maxItems && (list.textContent.match(/\S+/g) || []).length <= maxWords) return [list];
+    const parts = [];
+    let partItems = [];
+    let partWords = 0;
+    let partStart = 0;
+
+    function flushPart() {
+      if (!partItems.length) return;
+      const part = list.cloneNode(false);
+      if (part.tagName === "OL") {
+        const originalStart = Number(list.getAttribute("start")) || 1;
+        part.setAttribute("start", originalStart + partStart);
+      }
+      partItems.forEach((item) => part.appendChild(item.cloneNode(true)));
+      parts.push(part);
+      partStart += partItems.length;
+      partItems = [];
+      partWords = 0;
+    }
+
+    items.forEach((item) => {
+      const words = (item.textContent.match(/\S+/g) || []).length;
+      if (partItems.length && (partItems.length >= maxItems || partWords + words > maxWords)) flushPart();
+      partItems.push(item);
+      partWords += words;
+    });
+    flushPart();
+    return parts;
+  }
+
+  function normalizeSlideNodes(nodes) {
+    const normalized = [];
+    nodes.forEach((node) => {
+      if (node.matches("ul,ol")) {
+        normalized.push(...splitList(node));
+        return;
+      }
+      if (node.matches(".callout")) {
+        const list = node.querySelector(":scope > ul, :scope > ol");
+        if (list) {
+          const parts = splitList(list, 2, 105);
+          if (parts.length > 1) {
+            parts.forEach((part, index) => {
+              const callout = node.cloneNode(false);
+              const label = node.querySelector(":scope > .lbl");
+              if (label) {
+                const labelClone = label.cloneNode(true);
+                if (index) labelClone.textContent += " · tiếp theo";
+                callout.appendChild(labelClone);
+              }
+              callout.appendChild(part);
+              normalized.push(callout);
+            });
+            return;
+          }
+        }
+      }
+      normalized.push(node);
+    });
+    return normalized;
   }
 
   function splitIntoChunks(nodes) {
     const chunks = [];
     let chunk = [];
     let weight = 0;
-    const limit = 11.5;
+    const limit = 8.8;
 
-    nodes.forEach((node) => {
+    normalizeSlideNodes(nodes).forEach((node) => {
       const value = nodeWeight(node);
       const keepWithNext = (node.matches(".tcap") && node.nextElementSibling && node.nextElementSibling.matches(".tbl-scroll")) || node.matches("h3");
       if (chunk.length && weight + value > limit && !chunk[chunk.length - 1].matches(".tcap,h3")) {
@@ -199,6 +267,14 @@
     showSlide(activeSlide + direction);
   }
 
+  function revealControls() {
+    body.classList.remove("controls-hidden");
+    window.clearTimeout(controlsHideTimer);
+    if (document.fullscreenElement && body.classList.contains("mode-present")) {
+      controlsHideTimer = window.setTimeout(() => body.classList.add("controls-hidden"), 1800);
+    }
+  }
+
   gate.querySelectorAll("[data-mode]").forEach((button) => button.addEventListener("click", () => setMode(button.dataset.mode)));
   document.querySelectorAll("[data-switch]").forEach((button) => button.addEventListener("click", () => setMode(button.dataset.switch)));
   previousButton.addEventListener("click", () => stepSlide(-1));
@@ -206,6 +282,7 @@
 
   document.addEventListener("keydown", (event) => {
     if (!body.classList.contains("mode-present") || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
+    revealControls();
     if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(event.key)) {
       event.preventDefault();
       stepSlide(1);
@@ -221,19 +298,8 @@
     }
   });
 
-  presentationView.addEventListener("wheel", (event) => {
-    if (wheelLocked || Math.abs(event.deltaY) < 28) return;
-    const scroller = slides[activeSlide]?.querySelector(".deck-slide__scroll");
-    const canScrollDown = scroller && scroller.scrollTop + scroller.clientHeight < scroller.scrollHeight - 2;
-    const canScrollUp = scroller && scroller.scrollTop > 2;
-    if ((event.deltaY > 0 && canScrollDown) || (event.deltaY < 0 && canScrollUp)) return;
-    event.preventDefault();
-    wheelLocked = true;
-    stepSlide(event.deltaY > 0 ? 1 : -1);
-    window.setTimeout(() => { wheelLocked = false; }, 650);
-  }, { passive: false });
-
   presentationView.addEventListener("touchstart", (event) => {
+    revealControls();
     touchStartX = event.changedTouches[0].screenX;
     touchStartY = event.changedTouches[0].screenY;
   }, { passive: true });
@@ -254,5 +320,8 @@
   document.addEventListener("fullscreenchange", () => {
     fullscreenButton.textContent = document.fullscreenElement ? "×" : "⛶";
     fullscreenButton.setAttribute("aria-label", document.fullscreenElement ? "Thoát toàn màn hình" : "Bật toàn màn hình");
+    revealControls();
   });
+  presentationView.addEventListener("pointermove", revealControls, { passive: true });
+  presentationView.addEventListener("pointerdown", revealControls, { passive: true });
 })();
