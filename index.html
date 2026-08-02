@@ -306,14 +306,15 @@ cố. Chi tiết cấu hình siêu tham số, kết quả số liệu và bảng
 <b>Mô hình sử dụng:</b> LinearDML (mô hình chính) và SparseLinearDML (mô hình đối chiếu, kiểm tra độ
 vững). &nbsp;<b>Mẫu:</b> 6.500 quan sát.
 </p>
-<figure data-slide-title="TN1 · Phân phối giá theo loại căn hộ và nội thất">
+<figure data-slide-title="TN1 · Vì sao chưa thể kết luận từ giá quan sát?">
 <div class="figbox">
 <img class="fig" src="images/fig1.svg" alt="Box plot phân phối giá">
 </div>
 <figcaption class="chart-reading">
   <b>Hình 1. Phân phối giá quan sát.</b>
-  <span><strong>Ý nghĩa:</strong> Giá/m² phân hóa theo loại căn hộ và nội thất; nhóm nội thất cao cấp có trung vị cao nhất. Tuy nhiên, các nhóm còn chồng lấn nên chênh lệch thô có thể chứa ảnh hưởng của vị trí và đặc điểm vật lý.</span>
-  <span class="chart-takeaway"><strong>Kết luận:</strong> DML xác nhận nội thất và một số loại căn hộ vẫn làm giá thay đổi sau khi kiểm soát các yếu tố gây nhiễu.</span>
+  <span><strong>Vì sao cần hình này?</strong> Đây là mức giá <em>trước khi kiểm soát</em>, dùng làm mốc để thấy mô tả dữ liệu thô chưa đủ trả lời câu hỏi nhân quả.</span>
+  <span><strong>Chồng lấn ở đâu?</strong> Phần lớn các hộp cùng phủ vùng log(giá/m²) khoảng <b>3,5–4,0</b>: cùng một mức giá xuất hiện ở nhiều loại căn hộ và nhiều mức nội thất.</span>
+  <span class="chart-takeaway"><strong>Điều có thể kết luận:</strong> Các nhóm có trung vị khác nhau nhưng loại căn hộ hoặc nội thất không tự nó giải thích hết giá. <b>Bảng II tiếp theo</b> mới kiểm tra tác động sau khi khử nhiễu bằng DML.</span>
 </figcaption>
 </figure>
 <p class="tcap" data-slide-title="TN1 · Hiệu ứng nhân quả của 5 yếu tố"><b>Bảng II.</b> Kết quả ước lượng hiệu ứng nhân quả (Mô hình A – LinearDML).</p>
@@ -333,11 +334,17 @@ vững). &nbsp;<b>Mẫu:</b> 6.500 quan sát.
 </tbody>
 </table></div>
 <p class="note">Ghi chú: *** p&lt;0,001; ** p&lt;0,01; * p&lt;0,05; n.s. = không có ý nghĩa thống kê.</p>
-<p>
-<b>Kiểm tra độ vững:</b> SparseLinearDML cho kết quả gần như trùng với LinearDML ở mọi yếu tố, chênh lệch
-dưới 1 điểm phần trăm. Vì vậy kết luận ở Bảng II không nhạy với lựa chọn mô hình; thông số đầy đủ nằm ở
-<b>Bảng V</b> (Phụ lục).
-</p>
+<p class="tcap" data-slide-title="TN1 · Đối chiếu LinearDML và SparseLinearDML"><b>Kiểm tra độ vững.</b> Hai mô hình dùng cùng dữ liệu và bước khử nhiễu; bảng dưới đặt kết quả cạnh nhau để kiểm tra độ nhạy với mô hình cuối.</p>
+<div class="tbl-scroll"><table>
+<thead><tr><th>Nhóm yếu tố</th><th>LinearDML</th><th>SparseLinearDML</th><th>Đối chiếu</th></tr></thead>
+<tbody>
+<tr><td class="grp">Vị trí gần metro</td><td class="num">+27,3%</td><td class="num">+27,4%</td><td><span class="v-pos">Cùng chiều, cùng ý nghĩa</span></td></tr>
+<tr><td class="grp">Người bán</td><td class="num">−0,1% (n.s.)</td><td class="num">−0,1% (n.s.)</td><td><span class="v-ns">Cùng kết luận</span></td></tr>
+<tr><td class="grp">Nội thất</td><td class="num">−5,4% đến −13,9%</td><td class="num">−5,4% đến −14,0%</td><td><span class="v-neg">Cùng chiều, cùng ý nghĩa</span></td></tr>
+<tr><td class="grp">Loại căn hộ</td><td class="num">−16,7% đến +29,4%</td><td class="num">−17,0% đến +29,3%</td><td>Cùng chiều; <b>Duplex sát ngưỡng</b><br><span class="small">p: 0,055 ↔ 0,045</span></td></tr>
+<tr><td class="grp">Pháp lý</td><td class="num">−7,7% đến −18,1%</td><td class="num">−7,5% đến −17,9%</td><td>Chỉ “đang chờ sổ” có ý nghĩa ở cả hai</td></tr>
+</tbody>
+</table></div>
 <div class="callout">
 <div class="lbl">Nhận xét</div>
 <ul>

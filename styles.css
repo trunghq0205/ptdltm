@@ -262,7 +262,10 @@ body.mode-present .view-toolbar [data-switch="present"] { color:#172038; backgro
 .deck-slide__content .tbl-scroll { max-height:55vh; overflow:auto; border:1px solid #d8dfe9; border-radius:14px; background:#fff; box-shadow:0 16px 42px rgba(25,40,70,.07); }
 .deck-slide__content table { font-size:clamp(12px,1vw,15px); }
 .deck-slide__content thead { position:sticky; top:0; z-index:1; background:#edf1f7; }
-.deck-slide__content th,.deck-slide__content td { padding:8px 10px; }
+.deck-slide__content th,.deck-slide__content td { padding:8px 10px; vertical-align:middle; }
+.deck-slide__content thead th { text-align:center; }
+.deck-slide__content td.num { text-align:center; }
+.deck-slide__content .st { display:inline-block; margin-left:.35em; }
 .deck-slide__content .formula { padding:18px; border-radius:14px; background:#fff; font-size:clamp(18px,2vw,28px); box-shadow:0 14px 36px rgba(25,40,70,.07); }
 
 .deck-slide--hero { color:#eef3fb; background:
