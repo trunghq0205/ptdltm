@@ -63,7 +63,9 @@
         scroll.className = "deck-slide__scroll";
         const content = document.createElement("div");
         content.className = "deck-slide__content";
-        nodes.forEach((node) => content.appendChild(cleanClone(node)));
+        nodes
+          .filter((node) => !node.matches("h3"))
+          .forEach((node) => content.appendChild(cleanClone(node)));
         scroll.appendChild(content);
         inner.appendChild(scroll);
       }
@@ -123,13 +125,20 @@
     const normalized = [];
     nodes.forEach((node) => {
       if (node.matches("ul,ol")) {
-        normalized.push(...splitList(node));
+        normalized.push(...splitList(node, node.matches(".slide-concise") ? 5 : 3, node.matches(".slide-concise") ? 150 : 115));
         return;
       }
       if (node.matches(".callout")) {
         const list = node.querySelector(":scope > ul, :scope > ol");
         if (list) {
-          const parts = splitList(list, 2, 105);
+          const parts = splitList(list, 3, 105);
+          if (parts.length > 1) {
+            const lastPart = parts[parts.length - 1];
+            const previousPart = parts[parts.length - 2];
+            if (lastPart.children.length === 1 && previousPart.children.length > 2) {
+              lastPart.insertBefore(previousPart.lastElementChild, lastPart.firstElementChild);
+            }
+          }
           if (parts.length > 1) {
             parts.forEach((part, index) => {
               const callout = node.cloneNode(false);
@@ -160,6 +169,11 @@
     normalizeSlideNodes(nodes).forEach((node) => {
       const value = nodeWeight(node);
       const keepWithNext = (node.matches(".tcap") && node.nextElementSibling && node.nextElementSibling.matches(".tbl-scroll")) || node.matches("h3");
+      if (node.matches("h3") && chunk.length) {
+        chunks.push(chunk);
+        chunk = [];
+        weight = 0;
+      }
       if (node.matches(".slide-break-before") && chunk.length) {
         chunks.push(chunk);
         chunk = [];
@@ -258,8 +272,10 @@
     ]
   };
 
-  function conciseList(items) {
+  function conciseList(items, slideTitle = "") {
     const list = document.createElement("ul");
+    list.className = "slide-concise";
+    if (slideTitle) list.dataset.slideTitle = slideTitle;
     items.forEach((html) => {
       const item = document.createElement("li");
       item.innerHTML = html;
@@ -275,7 +291,7 @@
 
     children.forEach((node) => {
       if (node.tagName === "H2") {
-        if (inMethodSection) output.push(conciseList(DML_CONCISE.synth));
+        if (inMethodSection) output.push(conciseList(DML_CONCISE.synth, "Tổng hợp bốn mô hình"));
         inMethodSection = /phương pháp/i.test(node.textContent);
         introAdded = false;
         output.push(node);
@@ -296,7 +312,7 @@
 
       if (node.matches("p")) {
         if (!introAdded) {
-          output.push(conciseList(DML_CONCISE.intro));
+          output.push(conciseList(DML_CONCISE.intro, "Double Machine Learning: ý tưởng cốt lõi"));
           introAdded = true;
         }
         return;
@@ -305,7 +321,7 @@
       output.push(node);
     });
 
-    if (inMethodSection) output.push(conciseList(DML_CONCISE.synth));
+    if (inMethodSection) output.push(conciseList(DML_CONCISE.synth, "Tổng hợp bốn mô hình"));
     return output;
   }
 

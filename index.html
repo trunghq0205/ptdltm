@@ -224,7 +224,7 @@ chất nên đọc theo <b>nhị phân</b>: <i>có nội thất</i> (mã 1–3) 
 Learning (DML)</b> - phương pháp kết hợp mô hình học máy (dùng để khử nhiễu phi tuyến từ các biến kiểm
 soát) với một bước ước lượng nhân quả ở giai đoạn cuối. Ý tưởng cốt lõi gồm hai bước:
 </p>
-<div class="formula"><i>Ỹ</i> = <i>Y</i> − E[<i>Y</i>&thinsp;|&thinsp;<i>W</i>] &nbsp;&nbsp;,&nbsp;&nbsp;
+<div class="formula" data-slide-title="Cơ chế khử nhiễu của DML"><i>Ỹ</i> = <i>Y</i> − E[<i>Y</i>&thinsp;|&thinsp;<i>W</i>] &nbsp;&nbsp;,&nbsp;&nbsp;
 <i>T̃</i><sub>j</sub> = <i>T</i><sub>j</sub> − E[<i>T</i><sub>j</sub>&thinsp;|&thinsp;<i>W</i>]</div>
 <p>
 <b>Bước 1 (orthogonalization)</b> dùng mô hình học máy (ở đây là LightGBM) để dự đoán riêng <i>giá</i> và
@@ -306,7 +306,7 @@ cố. Chi tiết cấu hình siêu tham số, kết quả số liệu và bảng
 <b>Mô hình sử dụng:</b> LinearDML (mô hình chính) và SparseLinearDML (mô hình đối chiếu, kiểm tra độ
 vững). &nbsp;<b>Mẫu:</b> 6.500 quan sát.
 </p>
-<figure>
+<figure data-slide-title="TN1 · Phân phối giá theo loại căn hộ và nội thất">
 <div class="figbox">
 <img class="fig" src="images/fig1.svg" alt="Box plot phân phối giá">
 </div>
@@ -356,7 +356,7 @@ nhau, để kiểm chứng chuyên sâu riêng cho yếu tố vị trí. &nbsp;<
 phạm vi 3km quanh tuyến metro (67 gần / 232 xa). <b>Mẫu RDD:</b> thay đổi từ 400 đến 956 quan sát tùy
 bandwidth quanh ngưỡng 800m, như trình bày ở Bảng IV.
 </p>
-<figure>
+<figure data-slide-title="TN2 · Phân bố mẫu quanh metro số 1">
 <div class="figbox">
 <img class="fig" src="images/map.svg" alt="Bản đồ phân bố căn hộ quanh tuyến metro số 1">
 </div>
@@ -375,7 +375,7 @@ bandwidth quanh ngưỡng 800m, như trình bày ở Bảng IV.
 <tr><td class="grp">KTC 95%</td><td class="num">[+5,6%; +78,6%]</td></tr>
 </tbody>
 </table></div>
-<figure>
+<figure data-slide-title="TN2 · Phân phối hiệu ứng CATE">
 <div class="figbox">
 <img class="fig" src="images/fig4.svg" alt="Phân phối CATE Causal Forest">
 </div>
@@ -395,7 +395,7 @@ bandwidth quanh ngưỡng 800m, như trình bày ở Bảng IV.
 <tr><td class="num">1200</td><td class="num">956 (359/597)</td><td class="num">−15,3</td><td class="num small">[−29,3; −3,8]</td><td class="num">0,011<span class="st">*</span></td></tr>
 </tbody>
 </table></div>
-<figure>
+<figure data-slide-title="TN2 · Kiểm định độ nhạy bằng RDD">
 <div class="figbox">
 <img class="fig" src="images/fig5.svg" alt="RDD scatter plot">
 </div>
