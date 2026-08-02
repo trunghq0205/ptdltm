@@ -310,7 +310,12 @@ vững). &nbsp;<b>Mẫu:</b> 6.500 quan sát.
 <div class="figbox">
 <img class="fig" src="images/fig1.svg" alt="Box plot phân phối giá">
 </div>
-<figcaption><b>Hình 1.</b> Phân phối raw data của log(giá/m²) theo loại căn hộ (trái) và tình trạng nội thất (phải). Mỗi box: median (đường giữa), IQR (hộp), whisker (1.5×IQR). Nhóm tham chiếu nội thất (Mã 1 – Nội thất cao cấp) có median cao nhất - phù hợp với kết quả causal estimate âm cho các nhóm còn lại.</figcaption>
+<figcaption class="chart-reading">
+  <b>Hình 1. Phân phối giá quan sát.</b>
+  <span><strong>Phát hiện chính:</strong> Mặt bằng giá/m² phân hóa rõ theo loại căn hộ và tình trạng nội thất. Nhóm nội thất cao cấp có trung vị giá cao nhất; một số phân khúc căn hộ cũng có mức giá và độ phân tán khác biệt đáng kể.</span>
+  <span><strong>Ý nghĩa phân tích:</strong> Nội thất và loại căn hộ có liên hệ rõ với giá ngay trong dữ liệu ban đầu, nhưng độ chồng lấn giữa các nhóm cho thấy chúng không giải thích toàn bộ chênh lệch giá. Một phần khác biệt có thể đến từ vị trí, diện tích hoặc đặc điểm vật lý đi kèm, nên cần DML để tách tác động riêng.</span>
+  <span class="chart-takeaway"><strong>Kết luận:</strong> Biểu đồ cung cấp bằng chứng mô tả rằng nội thất và phân khúc sản phẩm là các yếu tố đáng kiểm định. Sau khi kiểm soát nhiễu ở Bảng II, cả hai vẫn có tác động, nhưng chỉ ở những mức hoặc phân khúc cụ thể.</span>
+</figcaption>
 </figure>
 <p class="tcap"><b>Bảng II.</b> Kết quả ước lượng hiệu ứng nhân quả (Mô hình A – LinearDML).</p>
 <div class="tbl-scroll"><table>
@@ -358,14 +363,20 @@ mô hình được liệt kê ở <b>Bảng V</b> (Phụ lục).
 <h3 id="tn2">B. TN2: Ảnh hưởng của vị trí lên giá căn hộ</h3>
 <p>
 <b>Mô hình sử dụng:</b> Causal Forest và Hồi quy gián đoạn (RDD) - hai phương pháp độc lập, giả định khác
-nhau, để kiểm chứng chuyên sâu riêng cho yếu tố vị trí. &nbsp;<b>Mẫu:</b> 299 quan sát trong phạm vi 3km
-quanh tuyến metro (67 gần / 232 xa).
+nhau, để kiểm chứng chuyên sâu riêng cho yếu tố vị trí. &nbsp;<b>Mẫu Causal Forest:</b> 299 quan sát trong
+phạm vi 3km quanh tuyến metro (67 gần / 232 xa). <b>Mẫu RDD:</b> thay đổi từ 400 đến 956 quan sát tùy
+bandwidth quanh ngưỡng 800m, như trình bày ở Bảng IV.
 </p>
 <figure>
 <div class="figbox">
 <img class="fig" src="images/map.svg" alt="Bản đồ phân bố căn hộ quanh tuyến metro số 1">
 </div>
-<figcaption><b>Hình 2.</b> Bản đồ phân bố căn hộ quanh tuyến metro số 1 (Bến Thành – Suối Tiên). Chấm xanh lá = căn hộ nằm trong 800m tới ga gần nhất ("gần metro"); chấm xanh dương = ngoài 800m. Đường đỏ nối 14 ga cho thấy trục metro chạy theo hướng Tây Nam – Đông Bắc; bản đồ minh họa phân bố địa lý của hai nhóm gần/xa trong vùng khảo sát.</figcaption>
+<figcaption class="chart-reading">
+  <b>Hình 2. Phân bố mẫu quanh metro số 1.</b>
+  <span><strong>Phát hiện chính:</strong> Các căn hộ gần và xa metro tạo thành những cụm không gian khác nhau dọc tuyến Bến Thành – Suối Tiên, thay vì phân bố đồng đều trên toàn khu vực khảo sát.</span>
+  <span><strong>Ý nghĩa phân tích:</strong> Khoảng cách tới metro gắn chặt với vị trí địa lý và mặt bằng giá của từng khu vực. Nếu chỉ so sánh giá trung bình giữa hai nhóm, phần chênh lệch do quận hoặc khu dân cư có thể bị gán nhầm thành tác động của metro.</span>
+  <span class="chart-takeaway"><strong>Kết luận:</strong> Bản đồ cho thấy kiểm soát yếu tố không gian là điều kiện quan trọng để trả lời đúng câu hỏi về tác động của vị trí; bản thân sự tập trung quanh ga chưa đủ chứng minh metro làm tăng giá.</span>
+</figcaption>
 </figure>
 <p class="tcap"><b>Bảng III.</b> Kết quả Causal Forest.</p>
 <div class="tbl-scroll"><table>
@@ -380,7 +391,12 @@ quanh tuyến metro (67 gần / 232 xa).
 <div class="figbox">
 <img class="fig" src="images/fig4.svg" alt="Phân phối CATE Causal Forest">
 </div>
-<figcaption><b>Hình 3.</b> Phân phối ước lượng hiệu ứng nhân quả cá nhân (CATE) từ Causal Forest (n=299 quan sát trong phạm vi 3km quanh metro). Đường đỏ đứt là ATE = +37,4%. Phân phối trải rộng cho thấy tác động của vị trí không đồng đều - một số căn được hưởng lợi nhiều hơn đáng kể so với mức trung bình.</figcaption>
+<figcaption class="chart-reading">
+  <b>Hình 3. Phân phối hiệu ứng CATE.</b>
+  <span><strong>Phát hiện chính:</strong> Tác động ước lượng của việc ở gần metro chủ yếu nằm phía dương, với hiệu ứng trung bình +37,4%, nhưng trải rộng giữa các căn hộ. Vì vậy metro không tạo ra cùng một mức tăng giá cho mọi bất động sản.</span>
+  <span><strong>Ý nghĩa phân tích:</strong> Lợi ích từ khả năng tiếp cận metro còn phụ thuộc vào đặc điểm và khu vực của từng căn. Khoảng tin cậy [+5,6%; +78,6%] xác nhận hiệu ứng trung bình dương trong mẫu, đồng thời cho thấy độ lớn ước lượng còn khá bất định.</span>
+  <span class="chart-takeaway"><strong>Kết luận:</strong> Causal Forest củng cố kết quả TN1 rằng vị trí gần metro làm tăng giá/m² sau khi kiểm soát nhiễu. Tuy nhiên, mức tăng không đồng nhất và kết luận này chỉ áp dụng cho vùng khảo sát gần tuyến metro.</span>
+</figcaption>
 </figure>
 <p class="tcap"><b>Bảng IV.</b> Kết quả RDD theo các độ rộng dải (bandwidth) quanh ngưỡng 800m.</p>
 <div class="tbl-scroll"><table>
@@ -396,7 +412,12 @@ quanh tuyến metro (67 gần / 232 xa).
 <div class="figbox">
 <img class="fig" src="images/fig5.svg" alt="RDD scatter plot">
 </div>
-<figcaption><b>Hình 4.</b> Scatter plot RDD: mỗi điểm là một tin rao, màu xanh lá = nằm trong 800m, màu xanh dương = ngoài 800m. Đường hồi quy tuyến tính hai bên ngưỡng cho thấy gián đoạn nhỏ tại 800m (ước lượng RDD: −8% đến −15% tùy bandwidth). Hướng âm phản ánh nhiễu địa bàn - nhiều khu giá cao nằm ở vành 800–1200m.</figcaption>
+<figcaption class="chart-reading">
+  <b>Hình 4. Kiểm định độ nhạy bằng RDD.</b>
+  <span><strong>Phát hiện chính:</strong> Giá tại hai phía ngưỡng 800m không xuất hiện một bước nhảy dương rõ ràng. Các ước lượng RDD mang dấu âm từ −8% đến −15%, nhưng thay đổi theo phạm vi dữ liệu được chọn quanh ngưỡng.</span>
+  <span><strong>Ý nghĩa phân tích:</strong> Ba bandwidth 300m, 500m và 800m chưa có ý nghĩa thống kê; chỉ bandwidth 1200m có ý nghĩa. Điều này cho thấy kết quả âm thiếu ổn định và có thể chịu ảnh hưởng của việc nhiều khu giá cao nằm ngay ngoài ngưỡng 800m.</span>
+  <span class="chart-takeaway"><strong>Kết luận:</strong> RDD không tạo ra bằng chứng âm đủ vững để bác bỏ tác động dương trong TN1 và Causal Forest. Thay vào đó, biểu đồ cảnh báo rằng độ lớn của hiệu ứng metro nhạy với cách xác định nhóm gần/xa và phạm vi so sánh.</span>
+</figcaption>
 </figure>
 <div class="callout warn">
 <div class="lbl">Nhận xét</div>
@@ -412,6 +433,18 @@ quanh tuyến metro (67 gần / 232 xa).
   với kết quả +27,3% ở TN1, ước lượng dương được xem là đáng tin cậy chính; kết quả RDD được ghi nhận như
   một cảnh báo về độ nhạy của kết luận với cách xác định "vị trí", không phải bằng chứng bác bỏ.</li>
 </ul>
+</div>
+
+<h3 id="tn-answer" class="slide-break-before">C. Trả lời câu hỏi nghiên cứu từ kết quả thực nghiệm</h3>
+<div class="research-answer">
+  <p class="research-answer__lead">Sau khi kiểm soát lẫn nhau và kiểm soát đặc điểm vật lý, bằng chứng cho thấy <b>vị trí, tình trạng nội thất và một số loại căn hộ</b> làm giá/m² thay đổi; <b>người bán</b> không có tác động, còn <b>pháp lý</b> chỉ có bằng chứng ở một nhóm cụ thể.</p>
+  <div class="research-answer__grid">
+    <div class="research-answer__item is-yes"><b>Vị trí</b><strong>Có tác động</strong><span>Gần metro: +27,3% ở mô hình chính; Causal Forest cùng chiều (+37,4%). Đây là yếu tố mạnh và vững nhất, dù RDD cảnh báo độ nhạy của độ lớn.</span></div>
+    <div class="research-answer__item is-yes"><b>Nội thất</b><strong>Có tác động</strong><span>Các mức kém hoàn thiện hơn nhóm cao cấp làm giá giảm khoảng 5,4%–13,9%; các ước lượng đều có ý nghĩa thống kê.</span></div>
+    <div class="research-answer__item is-partial"><b>Loại căn hộ</b><strong>Tác động theo phân khúc</strong><span>Dịch vụ/mini và officetel tăng giá; tập thể/cư xá giảm giá. Chưa đủ bằng chứng đối với duplex và penthouse.</span></div>
+    <div class="research-answer__item is-no"><b>Người bán</b><strong>Không có tác động</strong><span>Công ty/môi giới so với cá nhân: −0,1%, p=0,960. Kênh đăng tin không làm giá/m² thay đổi sau kiểm soát.</span></div>
+    <div class="research-answer__item is-partial"><b>Pháp lý</b><strong>Bằng chứng hạn chế</strong><span>Chỉ nhóm “đang chờ sổ” giảm 18,1% và có ý nghĩa; các nhóm pháp lý còn lại chưa đủ bằng chứng để kết luận.</span></div>
+  </div>
 </div>
 
 <!-- ============ 6. TRẢ LỜI ============ -->
