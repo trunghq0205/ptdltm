@@ -53,6 +53,9 @@
         const heading = document.createElement("h2");
         heading.className = "deck-slide__title";
         heading.innerHTML = title;
+        const titleLength = heading.textContent.trim().length;
+        if (titleLength > 42) heading.classList.add("is-long");
+        if (titleLength > 68) heading.classList.add("is-very-long");
         inner.appendChild(heading);
       }
       if (nodes.length) {
@@ -185,12 +188,133 @@
     return clone.innerHTML.trim();
   }
 
+  function escapeTitle(text) {
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function chunkTitle(chunk, topicTitle) {
+    const customTitle = chunk.find((node) => node.dataset.slideTitle);
+    if (customTitle) return escapeTitle(customTitle.dataset.slideTitle);
+
+    const subsection = chunk.find((node) => node.matches("h3"));
+    if (subsection) return escapeTitle(subsection.textContent.trim());
+
+    const tableCaption = chunk.find((node) => node.matches(".tcap"));
+    if (tableCaption) return escapeTitle(tableCaption.textContent.trim());
+
+    const figure = chunk.find((node) => node.matches("figure"));
+    const figureTitle = figure?.querySelector("figcaption > b, figcaption strong");
+    if (figureTitle) return escapeTitle(figureTitle.textContent.trim());
+
+    const calloutLabel = chunk
+      .find((node) => node.matches(".callout"))
+      ?.querySelector(":scope > .lbl");
+    if (calloutLabel) {
+      return `${topicTitle} <small>· ${escapeTitle(calloutLabel.textContent.trim())}</small>`;
+    }
+
+    return topicTitle;
+  }
+
+  // Phiên bản rút gọn chỉ dùng cho slide của Mục III. Nội dung báo cáo đầy đủ
+  // không bị thay đổi; khi dựng deck, các đoạn dài được thay bằng bullet ngắn.
+  const DML_CONCISE = {
+    intro: [
+      "<b>DML</b>: kết hợp học máy (khử nhiễu phi tuyến từ biến kiểm soát) với một bước ước lượng nhân quả ở cuối.",
+      "<b>Bước 1</b> (khử nhiễu): dùng LightGBM dự đoán riêng <i>giá</i> và <i>từng yếu tố</i> từ biến kiểm soát <i>W</i> (diện tích, số phòng, toilet, tầng, khu vực), rồi lấy phần dư.",
+      "<b>Bước 2</b>: hồi quy phần dư của giá lên phần dư của các yếu tố → hệ số <i>θ̂</i> ≈ tác động nhân quả riêng của từng yếu tố.",
+      "Quy đổi sang %: (e<sup><i>θ̂</i></sup> − 1) × 100.",
+      "Triển khai <b>4 mô hình</b> theo nguyên lý này, chia thành 2 nhóm theo mục đích."
+    ],
+    "A. LinearDML": [
+      "<b>Mô hình trục chính</b> — ước lượng đồng thời hiệu ứng riêng phần của cả 5 yếu tố.",
+      "5 yếu tố đưa vào cùng một vector tác nhân <i>T</i>; khử nhiễu bằng LightGBM (5-fold cross-fitting).",
+      "Bước cuối: hồi quy tuyến tính (OLS) trên phần dư.",
+      "Mỗi hệ số = chênh lệch giá/m² giữa hai căn giống hệt nhau, chỉ khác một yếu tố."
+    ],
+    "B. SparseLinearDML": [
+      "<b>Mô hình đối chứng</b> — cùng dữ liệu &amp; cách khử nhiễu như LinearDML.",
+      "Chỉ khác bước cuối: dùng <i>debiased Lasso</i> thay cho OLS.",
+      "Mục đích: xử lý đa cộng tuyến khi các yếu tố tương quan, vẫn giữ p-value &amp; khoảng tin cậy hợp lệ.",
+      "Hệ số trùng LinearDML → kết quả <b>vững</b>, không phải giả do đa cộng tuyến."
+    ],
+    "C. Causal Forest": [
+      "Khảo sát chuyên sâu riêng cho <b>yếu tố vị trí</b> (kỳ vọng tác động mạnh nhất).",
+      "Ước lượng ATE của việc gần metro bằng rừng cây “honest” (5-fold cross-fitting).",
+      "Cho phép hiệu ứng thay đổi theo từng căn (vd: căn nhỏ hưởng lợi nhiều hơn căn lớn).",
+      "Giả định: không còn nhiễu quan trọng chưa kiểm soát (<i>unconfoundedness</i>)."
+    ],
+    "D. Hồi quy gián đoạn (RDD)": [
+      "Kiểm chứng độc lập thứ hai cho <b>vị trí</b>.",
+      "Ngưỡng 800m tạo “gián đoạn sắc nét” tự nhiên (sharp RDD).",
+      "Hồi quy tuyến tính cục bộ hai bên ngưỡng; hệ số <i>β</i> = hiệu ứng cục bộ tại ngưỡng.",
+      "Giả định nhẹ hơn: chỉ cần tính liên tục quanh ngưỡng — góc nhìn khác hẳn Causal Forest.",
+      "Lặp lại với nhiều bandwidth để kiểm tra độ ổn định."
+    ],
+    synth: [
+      "Đối chiếu trong từng nhóm — <b>A ↔ B</b> và <b>C ↔ D</b> — để kiểm tra độ vững.",
+      "Các phương pháp giả định khác nhau cùng kết luận → độ tin cậy được củng cố.",
+      "Chi tiết cấu hình, số liệu và bảng biểu ở <b>Mục IV</b>."
+    ]
+  };
+
+  function conciseList(items) {
+    const list = document.createElement("ul");
+    items.forEach((html) => {
+      const item = document.createElement("li");
+      item.innerHTML = html;
+      list.appendChild(item);
+    });
+    return list;
+  }
+
+  function deckChildren(children) {
+    const output = [];
+    let inMethodSection = false;
+    let introAdded = false;
+
+    children.forEach((node) => {
+      if (node.tagName === "H2") {
+        if (inMethodSection) output.push(conciseList(DML_CONCISE.synth));
+        inMethodSection = /phương pháp/i.test(node.textContent);
+        introAdded = false;
+        output.push(node);
+        return;
+      }
+
+      if (!inMethodSection) {
+        output.push(node);
+        return;
+      }
+
+      if (node.tagName === "H3") {
+        output.push(node);
+        const conciseContent = DML_CONCISE[node.textContent.trim()];
+        if (conciseContent) output.push(conciseList(conciseContent));
+        return;
+      }
+
+      if (node.matches("p")) {
+        if (!introAdded) {
+          output.push(conciseList(DML_CONCISE.intro));
+          introAdded = true;
+        }
+        return;
+      }
+
+      output.push(node);
+    });
+
+    if (inMethodSection) output.push(conciseList(DML_CONCISE.synth));
+    return output;
+  }
+
   function buildDeck() {
     if (deckBuilt) return;
     const titleBlock = reportMain.querySelector("header.titleblock");
     createSlide({ nodes: [titleBlock], kind: "hero" });
 
-    const children = Array.from(reportMain.children).filter((node) => node !== titleBlock);
+    const children = deckChildren(Array.from(reportMain.children).filter((node) => node !== titleBlock));
     const sectionColors = ["#8c2f45", "#315f9d", "#39745b", "#7a4c99", "#ad6337", "#48647f"];
     let currentSection = "Mở đầu";
     let currentSectionIndex = "§";
@@ -201,9 +325,12 @@
     function flushGroup() {
       if (!currentNodes.length) return;
       const chunks = splitIntoChunks(currentNodes);
-      chunks.forEach((chunk, index) => {
+      let topicTitle = currentTitle;
+      chunks.forEach((chunk) => {
+        const subsection = chunk.find((node) => node.matches("h3"));
+        if (subsection) topicTitle = escapeTitle(subsection.textContent.trim());
         createSlide({
-          title: `${currentTitle}${index ? " <small>· tiếp theo</small>" : ""}`,
+          title: chunkTitle(chunk, topicTitle),
           section: currentSection,
           nodes: chunk,
           accent: sectionColors[Math.max(0, sectionNumber) % sectionColors.length]
