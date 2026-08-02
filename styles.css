@@ -260,7 +260,8 @@ body.mode-present .view-toolbar [data-switch="present"] { color:#172038; backgro
 .deck-slide--divider .deck-slide__title { position:relative; z-index:1; max-width:900px; color:#fff; font-size:clamp(52px,8vw,110px); }
 .deck-slide--divider .deck-slide__content { position:relative; z-index:1; max-width:860px; color:#cad5e7; font-size:clamp(19px,2vw,27px); }
 
-.deck-controls { position:fixed; left:50%; bottom:18px; z-index:20; display:flex; align-items:center; gap:12px; width:min(600px,calc(100% - 36px)); padding:8px 10px; transform:translateX(-50%); border:1px solid rgba(255,255,255,.18); border-radius:999px; background:rgba(12,21,38,.9); box-shadow:0 16px 40px rgba(0,0,0,.22); backdrop-filter:blur(18px); }
+.deck-controls { position:fixed; top:16px; left:50%; bottom:auto; z-index:20; display:flex; align-items:center; gap:12px; width:min(600px,calc(100% - 36px)); padding:8px 10px; opacity:1; transform:translateX(-50%); border:1px solid rgba(255,255,255,.18); border-radius:999px; background:rgba(12,21,38,.9); box-shadow:0 16px 40px rgba(0,0,0,.22); backdrop-filter:blur(18px); transition:opacity .3s ease,transform .35s ease; }
+body.controls-hidden .deck-controls { opacity:0; transform:translate(-50%,calc(-100% - 30px)); pointer-events:none; }
 .deck-controls button { display:grid; place-items:center; flex:0 0 36px; width:36px; height:36px; padding:0; border:0; border-radius:50%; color:#fff; background:rgba(255,255,255,.1); cursor:pointer; font-size:17px; }
 .deck-controls button:hover { background:rgba(255,255,255,.2); }
 .deck-controls button:disabled { opacity:.35; cursor:default; }
@@ -280,6 +281,7 @@ body.mode-present .view-toolbar [data-switch="present"] { color:#172038; backgro
   .mode-gate__author { width:min(310px,100%); justify-content:space-between; }
   .mode-gate__stats { gap:12px; flex-wrap:wrap; }
   .view-toolbar { top:8px; right:8px; }
+  .deck-controls { top:54px; width:calc(100% - 28px); }
   .deck-slide { padding:66px 22px 86px; }
   .deck-slide__inner,.deck-slide__scroll { max-height:calc(100vh - 145px); }
   .deck-slide__content figure { grid-template-columns:1fr; }
