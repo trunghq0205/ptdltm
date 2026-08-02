@@ -157,6 +157,11 @@
     normalizeSlideNodes(nodes).forEach((node) => {
       const value = nodeWeight(node);
       const keepWithNext = (node.matches(".tcap") && node.nextElementSibling && node.nextElementSibling.matches(".tbl-scroll")) || node.matches("h3");
+      if (node.matches(".slide-break-before") && chunk.length) {
+        chunks.push(chunk);
+        chunk = [];
+        weight = 0;
+      }
       if (chunk.length && weight + value > limit && !chunk[chunk.length - 1].matches(".tcap,h3")) {
         chunks.push(chunk);
         chunk = [];
@@ -180,104 +185,12 @@
     return clone.innerHTML.trim();
   }
 
-  // Concise, slide-only versions of the DML method section (Mục III). These are
-  // rendered as short bullet lists in the deck so slides don't show wall-of-text
-  // paragraphs. The report DOM is never modified — only the deck-node list built
-  // below swaps the verbose paragraphs for these lists.
-  const DML_CONCISE = {
-    intro: [
-      "<b>DML</b>: kết hợp học máy (khử nhiễu phi tuyến từ biến kiểm soát) với một bước ước lượng nhân quả ở cuối.",
-      "<b>Bước 1</b> (khử nhiễu): dùng LightGBM dự đoán riêng <i>giá</i> và <i>từng yếu tố</i> từ biến kiểm soát <i>W</i> (diện tích, số phòng, toilet, tầng, khu vực), rồi lấy phần dư.",
-      "<b>Bước 2</b>: hồi quy phần dư của giá lên phần dư của các yếu tố → hệ số <i>θ̂</i> ≈ tác động nhân quả riêng của từng yếu tố.",
-      "Quy đổi sang %: (e<sup><i>θ̂</i></sup> − 1) × 100.",
-      "Triển khai <b>4 mô hình</b> theo nguyên lý này, chia thành 2 nhóm theo mục đích."
-    ],
-    "A. LinearDML": [
-      "<b>Mô hình trục chính</b> — ước lượng đồng thời hiệu ứng riêng phần của cả 5 yếu tố.",
-      "5 yếu tố đưa vào cùng một vector tác nhân <i>T</i>; khử nhiễu bằng LightGBM (5-fold cross-fitting).",
-      "Bước cuối: hồi quy tuyến tính (OLS) trên phần dư.",
-      "Mỗi hệ số = chênh lệch giá/m² giữa hai căn giống hệt nhau, chỉ khác một yếu tố."
-    ],
-    "B. SparseLinearDML": [
-      "<b>Mô hình đối chứng</b> — cùng dữ liệu &amp; cách khử nhiễu như LinearDML.",
-      "Chỉ khác bước cuối: dùng <i>debiased Lasso</i> thay cho OLS.",
-      "Mục đích: xử lý đa cộng tuyến khi các yếu tố tương quan, vẫn giữ p-value &amp; khoảng tin cậy hợp lệ.",
-      "Hệ số trùng LinearDML → kết quả <b>vững</b>, không phải giả do đa cộng tuyến."
-    ],
-    "C. Causal Forest": [
-      "Khảo sát chuyên sâu riêng cho <b>yếu tố vị trí</b> (kỳ vọng tác động mạnh nhất).",
-      "Ước lượng ATE của việc gần metro bằng rừng cây “honest” (5-fold cross-fitting).",
-      "Cho phép hiệu ứng thay đổi theo từng căn (vd: căn nhỏ hưởng lợi nhiều hơn căn lớn).",
-      "Giả định: không còn nhiễu quan trọng chưa kiểm soát (<i>unconfoundedness</i>)."
-    ],
-    "D. Hồi quy gián đoạn (RDD)": [
-      "Kiểm chứng độc lập thứ hai cho <b>vị trí</b>.",
-      "Ngưỡng 800m tạo “gián đoạn sắc nét” tự nhiên (sharp RDD).",
-      "Hồi quy tuyến tính cục bộ hai bên ngưỡng; hệ số <i>β</i> = hiệu ứng cục bộ tại ngưỡng.",
-      "Giả định nhẹ hơn: chỉ cần tính liên tục quanh ngưỡng — góc nhìn khác hẳn Causal Forest.",
-      "Lặp lại với nhiều bandwidth để kiểm tra độ ổn định."
-    ],
-    synth: [
-      "Đối chiếu trong từng nhóm — <b>A ↔ B</b> và <b>C ↔ D</b> — để kiểm tra độ vững.",
-      "Các phương pháp giả định khác nhau cùng kết luận → độ tin cậy được củng cố.",
-      "Chi tiết cấu hình, số liệu và bảng biểu ở <b>Mục IV</b>."
-    ]
-  };
-
-  function conciseList(items) {
-    const list = document.createElement("ul");
-    items.forEach((html) => {
-      const item = document.createElement("li");
-      item.innerHTML = html;
-      list.appendChild(item);
-    });
-    return list;
-  }
-
-  // Returns the report children reshaped for the deck: within the DML method
-  // section, verbose <p> are dropped and replaced by concise bullet lists while
-  // headings and formulas are kept. All other sections pass through untouched.
-  function deckChildren(children) {
-    const out = [];
-    let inMethod = false;
-    let introDone = false;
-    children.forEach((node) => {
-      if (node.tagName === "H2") {
-        if (inMethod) out.push(conciseList(DML_CONCISE.synth));
-        inMethod = /phương pháp/i.test(node.textContent);
-        introDone = false;
-        out.push(node);
-        return;
-      }
-      if (!inMethod) {
-        out.push(node);
-        return;
-      }
-      if (node.tagName === "H3") {
-        out.push(node);
-        const key = node.textContent.trim();
-        if (DML_CONCISE[key]) out.push(conciseList(DML_CONCISE[key]));
-        return;
-      }
-      if (node.matches("p")) {
-        if (!introDone) {
-          out.push(conciseList(DML_CONCISE.intro));
-          introDone = true;
-        }
-        return; // drop verbose method paragraphs
-      }
-      out.push(node); // keep formulas and anything else
-    });
-    if (inMethod) out.push(conciseList(DML_CONCISE.synth));
-    return out;
-  }
-
   function buildDeck() {
     if (deckBuilt) return;
     const titleBlock = reportMain.querySelector("header.titleblock");
     createSlide({ nodes: [titleBlock], kind: "hero" });
 
-    const children = deckChildren(Array.from(reportMain.children).filter((node) => node !== titleBlock));
+    const children = Array.from(reportMain.children).filter((node) => node !== titleBlock);
     const sectionColors = ["#8c2f45", "#315f9d", "#39745b", "#7a4c99", "#ad6337", "#48647f"];
     let currentSection = "Mở đầu";
     let currentSectionIndex = "§";
@@ -313,9 +226,15 @@
     flushGroup();
 
     slides = Array.from(deck.querySelectorAll(".deck-slide"));
+    const slideNumberDigits = String(slides.length).length;
     slides.forEach((slide, index) => {
       slide.dataset.slide = String(index + 1);
       slide.setAttribute("aria-label", `Slide ${index + 1} trên ${slides.length}`);
+      const pageNumber = document.createElement("div");
+      pageNumber.className = "deck-slide__number";
+      pageNumber.setAttribute("aria-hidden", "true");
+      pageNumber.textContent = `${String(index + 1).padStart(slideNumberDigits, "0")} / ${String(slides.length).padStart(slideNumberDigits, "0")}`;
+      slide.appendChild(pageNumber);
       slide.querySelectorAll("img").forEach((image) => {
         image.addEventListener("error", () => image.closest(".figbox")?.classList.add("image-missing"));
       });
